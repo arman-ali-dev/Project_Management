@@ -1,0 +1,41 @@
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap");
+@import "tailwindcss";
+
+* {
+  box-sizing: border-box;
+  font-family: "Lexend", sans-serif;
+}
+
+body {
+  background-color: #efefef;
+}
+
+.shadow {
+  box-shadow: 0 0px 10px rgba(77, 77, 77, 0.1);
+}
+
+.lineShadow {
+  box-shadow: 0 0px 10px rgba(73, 122, 245);
+}
+
+.dropdown {
+  transition: all 0.3s linear 0s;
+  list-style: outside none none;
+  right: -50px;
+  top: 45px;
+  opacity: 0;
+  visibility: hidden;
+  border: 1px solid #dadada;
+  overflow-y: scroll;
+  border-radius: 4px;
+}
+
+.dropdown.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.dropdown::-webkit-scrollbar {
+  display: none;
+  scroll-behavior: smooth;
+}
