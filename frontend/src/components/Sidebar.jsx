@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import layoutIcon from "../assets/layout.png";
 import chartIcon from "../assets/chart.png";
 import monitorIcon from "../assets/monitor.png";
@@ -9,6 +9,8 @@ import chatIcon from "../assets/chat.png";
 import driveIcon from "../assets/drive.png";
 import usersIcon from "../assets/users.png";
 import logoutIcon from "../assets/logout.png";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../redux/member/authSlice";
 
 const manu = [
     {
@@ -51,6 +53,19 @@ const manu = [
 const Sidebar = () =>
 {
     const location = useLocation();
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const { user } = useSelector( state => state.user )
+
+
+    const handleLogout = () =>
+    {
+        dispatch( logout() );
+        navigate( "/signin" )
+    }
+
+
     return (
         <>
             <div className="shadow bg-white fixed left-0 top-0 h-screen w-76.25 z-50">
@@ -64,8 +79,17 @@ const Sidebar = () =>
                 </div>
 
                 <ul className="px-6 mt-10 space-y-1">
-                    { manu.map( ( item, index ) => (
+                    { manu.filter( ( item ) =>
+                    {
+                        if ( item.path === "/users" && user?.role !== "ADMIN" )
+                        {
+                            return false;
+                        }
+                        return true;
+                    } ).map( ( item, idx ) => (
                         <li
+
+                            key={ idx }
                             className={ `pl-5 py-3 relative ${ location.pathname.startsWith( item.path )
                                 ? "rounded-lg bg-[#EFEFEF]"
                                 : ""
@@ -73,7 +97,7 @@ const Sidebar = () =>
                         >
                             <Link
                                 to={ item.path }
-                                key={ index }
+                                key={ idx }
                                 className="flex items-center gap-3"
                             >
                                 <img className="w-5" src={ item.icon } alt="" />
@@ -97,11 +121,12 @@ const Sidebar = () =>
 
                 <div className="px-6 absolute bottom-6 w-full border-[#efefef] border-t pt-6">
                     <div
+                        onClick={ handleLogout }
                         className={ `pl-5 py-3 relative cursor-pointer w-full rounded-lg bg-[#EFEFEF]` }
                     >
                         <div className="flex items-center gap-3">
                             <img className="w-5" src={ logoutIcon } alt="" />
-                            <span className=" text-[15px] ">Logout</span>
+                            <span className=" text-[15pxe] ">Logout</span>
                         </div>
                     </div>
                 </div>

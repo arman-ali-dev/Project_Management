@@ -17,12 +17,18 @@
     "@mui/x-charts": "^8.27.0",
     "@mui/x-data-grid": "^8.27.0",
     "@mui/x-date-pickers": "^8.26.0",
+    "@reduxjs/toolkit": "^2.11.2",
     "@tailwindcss/vite": "^4.1.18",
+    "axios": "^1.13.4",
     "dayjs": "^1.11.19",
+    "formik": "^2.4.9",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-redux": "^9.2.0",
     "react-router-dom": "^7.13.0",
-    "tailwindcss": "^4.1.18"
+    "redux-persist": "^6.0.0",
+    "tailwindcss": "^4.1.18",
+    "yup": "^1.7.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

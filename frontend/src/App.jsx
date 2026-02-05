@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import Projects from "./pages/Project/Projects";
@@ -12,16 +12,32 @@ import Users from "./pages/Users/Users";
 import Profile from './pages/Account/Profile'
 import Signin from "./pages/Auth/Signin";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import { useDispatch } from "react-redux";
+import { fetchUserProfile } from "./redux/member/userSlice";
+import SetPassword from "./pages/Auth/SetPassword";
 
 const App = () =>
 {
     const location = useLocation()
+    const dispatch = useDispatch();
+
+    useEffect( () =>
+    {
+        const token = localStorage.getItem( "jwt" );
+        if ( !token ) return;
+
+        dispatch( fetchUserProfile() )
+    }, [ dispatch ] )
+
+
+    const isAuthPage = location.pathname === "/signin" || location.pathname.startsWith( "/set-password" );
+
     return (
         <>
             <div className="flex items-start">
-                { location.pathname != "/signin" && <Sidebar /> }
-                <div className={ `w-full ${ location.pathname != "/signin" && "ml-76.25" }  pb-10` }>
-                    { location.pathname != "/signin" && <Navbar /> }
+                { !isAuthPage && <Sidebar /> }
+                <div className={ `w-full ${ !isAuthPage && "ml-76.25" }  pb-10` }>
+                    { !isAuthPage && <Navbar /> }
                     <Routes>
                         <Route path="/dashboard" element={ <Dashboard /> } />
                         <Route path="/projects" element={ <Projects /> } />
@@ -33,6 +49,7 @@ const App = () =>
                         <Route path="/users" element={ <Users /> } />
                         <Route path="/profile" element={ <Profile /> } />
                         <Route path="/signin" element={ <Signin /> } />
+                        <Route path="/set-password" element={ <SetPassword /> } />
                     </Routes>
                 </div>
             </div>

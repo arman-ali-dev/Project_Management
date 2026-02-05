@@ -4,11 +4,14 @@ import searchIcon from "../assets/search.png";
 import chronometerIcon from "../assets/chronometer.png";
 import plusIcon from "../assets/plus.png";
 import bellIcon from "../assets/bell.png";
-import profilePic from "../assets/profile.jpg";
+import userAvatar from "../assets/userAvatar.png";
+import logoutIcon from "../assets/logout.png";
 
 import { Avatar, Button, Tooltip } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import CreateNewTaskForm from "../pages/Dashboard/CreateNewTaskForm";
+import { useSelector } from "react-redux";
+
 
 const notifications = [
     {
@@ -88,6 +91,7 @@ const Navbar = () =>
 {
     const [ open, setOpen ] = useState( false );
 
+
     const toggleDrawer = ( value ) => ( event ) =>
     {
         if (
@@ -141,6 +145,9 @@ const Navbar = () =>
             document.removeEventListener( "mousedown", handleClickOutside );
         };
     }, [] );
+
+    const { isAuthenticated } = useSelector( ( state ) => state.auth );
+    const { user } = useSelector( ( state ) => state.user );
 
     return (
         <>
@@ -338,20 +345,33 @@ const Navbar = () =>
 
                         <div className="h-full w-px  bg-[#efefef]"> </div>
 
-                        <Tooltip title="Profile">
-                            <div onClick={ () => navigate( "/profile" ) }>
-                                <Avatar
-                                    src={ profilePic }
-                                    alt="User Profile"
-                                    sx={ {
-                                        width: 36,
-                                        height: 36,
-                                        cursor: "pointer",
-                                        objectFit: "cover",
-                                    } }
-                                />
-                            </div>
-                        </Tooltip>
+                        { isAuthenticated ? (
+                            <Tooltip title="Profile">
+                                <div onClick={ () => navigate( "/profile" ) }>
+
+
+                                    <Avatar
+                                        src={ user?.profileImage == null ? userAvatar : user.profileImage }
+                                        alt="User Profile"
+                                        sx={ {
+                                            width: 35,
+                                            height: 35,
+                                            cursor: "pointer",
+                                            objectFit: "cover",
+                                        } }
+                                    />
+                                </div>
+                            </Tooltip>
+                        ) : (
+                            <Tooltip title="Login">
+                                <div
+                                    onClick={ () => navigate( "/signin" ) }
+                                    className="w-9 cursor-pointer h-9 bg-[#EFEFEF]  rounded-lg flex justify-center items-center"
+                                >
+                                    <img className="w-4" src={ logoutIcon } alt="" />
+                                </div>
+                            </Tooltip>
+                        ) }
                     </div>
                 </div>
             </div>

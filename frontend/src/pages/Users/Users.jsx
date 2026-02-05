@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import UserTable from "./UserTable";
 import { IconButton, Pagination } from "@mui/material";
 import plusIcon from "../../assets/plus.png";
 import searchIcon from "../../assets/search.png";
 import AddMemberForm from "./AddMemberForm";
+import filterIcon from "../../assets/filter.png";
+
+import { Divider, Menu, MenuItem } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { fetchUsers, searchUsers } from "../../redux/admin/userSlice";
 
 const Users = () =>
 {
+    const dispatch = useDispatch();
+
     const [ open, setOpen ] = React.useState( false );
 
     const toggleDrawer = ( value ) => ( event ) =>
@@ -21,6 +28,43 @@ const Users = () =>
         setOpen( value );
     };
 
+    // Filter
+    const [ status, setStatus ] = React.useState( null );
+
+    const [ filterAnchorEl, setFilterAnchorEl ] = React.useState( null );
+    const openFilterDropDown = Boolean( filterAnchorEl );
+
+    const handleClick = ( event ) =>
+    {
+        setFilterAnchorEl( event.currentTarget );
+    };
+
+    const handleCloseFilterDropDown = () =>
+    {
+        setFilterAnchorEl( null );
+    };
+
+    // Search
+    const [ search, setSearch ] = React.useState( "" );
+
+    useEffect( () =>
+    {
+        const token = localStorage.getItem( "jwt" );
+
+        if ( !token )
+        {
+            window.location.href = "/login";
+            return;
+        }
+        if ( search.trim() === "" )
+        {
+            dispatch( fetchUsers( status ) );
+        } else
+        {
+            dispatch( searchUsers( search ) );
+        }
+    }, [ search, status, dispatch ] );
+
     return (
         <>
             <div className=" mt-4 mx-8 relative">
@@ -33,63 +77,109 @@ const Users = () =>
                             <img className="w-3" src={ searchIcon } alt="" />
                         </div>
                         <input
-                            className="placeholder:text-[#000000] border-0 mt-1 outline-0 text-[13px] placeholder:text-[13px] opacity-80"
+                            value={ search }
+                            onChange={ ( e ) => setSearch( e.target.value ) }
+                            className="placeholder:text-[#000000] w-125 border-0 mt-1 outline-0 text-[13px] placeholder:text-[13px] opacity-80"
                             type="text"
-                            placeholder="Search files and folders..."
+                            placeholder="Search for names, emails or designations..."
                         />
                     </div>
 
-                    <IconButton
-                        onClick={ ( e ) =>
-                        {
-                            e.stopPropagation();
-                            toggleDrawer( true )( e );
-                        } }
-                        sx={ {
-                            width: 36,
-                            height: 36,
-                            backgroundColor: "#EFEFEF",
-                            cursor: "pointer",
-                            borderRadius: "8px",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            "&:hover": {
+                    <div className="flex gap-2">
+                        <div>
+                            <IconButton
+                                onClick={ handleClick }
+                                sx={ {
+                                    width: 36,
+                                    height: 36,
+                                    backgroundColor: "#EFEFEF",
+                                    cursor: "pointer",
+                                    borderRadius: "8px",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    "&:hover": {
+                                        backgroundColor: "#EFEFEF",
+                                    },
+                                } }
+                            >
+                                <img src={ filterIcon } alt="" className="w-4" />
+                            </IconButton>
+
+                            <Menu
+                                anchorEl={ filterAnchorEl }
+                                open={ openFilterDropDown }
+                                onClose={ handleCloseFilterDropDown }
+                                PaperProps={ {
+                                    sx: { width: 180, borderRadius: "8px" },
+                                } }
+                            >
+                                <MenuItem
+                                    sx={ { fontSize: "13px", fontWeight: 700 } }
+                                    onClick={ () =>
+                                    {
+                                        setStatus( "ACTIVE" );
+                                        handleCloseFilterDropDown();
+                                    } }
+                                >
+                                    Active
+                                </MenuItem>
+
+                                <MenuItem
+                                    sx={ { fontSize: "13px", fontWeight: 700 } }
+                                    onClick={ () =>
+                                    {
+                                        setStatus( "INACTIVE" );
+                                        handleCloseFilterDropDown();
+                                    } }
+                                >
+                                    Inactive
+                                </MenuItem>
+
+                                <MenuItem
+                                    sx={ { fontSize: "13px" } }
+                                    onClick={ () =>
+                                    {
+                                        setStatus( null );
+                                        handleCloseFilterDropDown();
+                                    } }
+                                >
+                                    Clear Filter
+                                </MenuItem>
+                            </Menu>
+                        </div>
+
+                        <IconButton
+                            onClick={ ( e ) =>
+                            {
+                                e.stopPropagation();
+                                toggleDrawer( true )( e );
+                            } }
+                            sx={ {
+                                width: 36,
+                                height: 36,
                                 backgroundColor: "#EFEFEF",
-                            },
-                        } }
-                    >
-                        <img className="w-3.5" src={ plusIcon } alt="" />
-                    </IconButton>
+                                cursor: "pointer",
+                                borderRadius: "8px",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                "&:hover": {
+                                    backgroundColor: "#EFEFEF",
+                                },
+                            } }
+                        >
+                            <img className="w-3.5" src={ plusIcon } alt="" />
+                        </IconButton>
+                    </div>
                 </div>
 
                 <div className="bg-white shadow mt-4 rounded-lg px-5 py-4">
                     <div className="flex justify-between items-center">
-                        <h3 className="text-[15px] font-semibold">Users List</h3>
+                        <h3 className="text-[16px] font-semibold">Users List</h3>
                     </div>
 
                     <UserTable />
-
-                    <div className="flex justify-center mt-10">
-                        <Pagination
-                            count={ 4 }
-                            shape="rounded"
-                            sx={ {
-                                "& .MuiPaginationItem-root": {
-                                    "&:hover": {
-                                        backgroundColor: "#f5f5f5",
-                                    },
-                                },
-                                "& .Mui-selected": {
-                                    backgroundColor: "black !important",
-                                    color: "white !important",
-                                    "&:hover": {
-                                        backgroundColor: "#333 !important",
-                                    },
-                                },
-                            } }
-                        />
-                    </div>
                 </div>
             </div>
 
