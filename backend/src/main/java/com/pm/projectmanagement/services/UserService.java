@@ -25,6 +25,5 @@ public interface UserService {
 
     List<User> getUsersByStatus(UserStatus status);
 
-    public List<User> searchUsers(String keyword);
-
+    List<User> searchUsers(String keyword);
 }

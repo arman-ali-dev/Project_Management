@@ -2,8 +2,11 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
 import authReducer from "./member/authSlice";
 import userReducer from "./member/userSlice";
+import taskReducer from "./member/taskSlice";
 
 import adminUserReducer from "./admin/userSlice";
+import adminProjectReducer from "./admin/projectSlice";
+import adminTaskReducer from "./admin/taskSlice";
 
 import {
   persistReducer,
@@ -27,9 +30,12 @@ const authPersistConfig = {
 const rootReducer = combineReducers({
   auth: authReducer,
   user: userReducer,
+  task: taskReducer,
 
   // ADMIN
   adminUser: adminUserReducer,
+  adminProject: adminProjectReducer,
+  adminTask: adminTaskReducer,
 });
 
 const rootPersistConfig = {

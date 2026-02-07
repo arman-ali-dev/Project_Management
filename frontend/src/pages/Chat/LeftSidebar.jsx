@@ -79,14 +79,14 @@ const LeftSidebar = () =>
                         </li>
                         <li className="relative">
                             <Link className="text-[13px] opacity-75 flex items-center gap-1.5 hover:opacity-100 transition-all duration-75">
-                                <img className="w-4 h-4" src={ tagIcon } alt="dm icon" />
+                                <img className="w-3.5 h-3.5" src={ tagIcon } alt="dm icon" />
                                 <span className="mt-px">Namaste Bharat</span>
                             </Link>
                         </li>
 
                         <li className="relative">
                             <Link className="text-[13px] opacity-75 flex items-center gap-1.5 hover:opacity-100 transition-all duration-75">
-                                <img className="w-4 h-4" src={ tagIcon } alt="corporation icon" />
+                                <img className="w-3.5 h-3.5" src={ tagIcon } alt="corporation icon" />
                                 <span className="mt-px">Ecommerce</span>
                             </Link>
                         </li>

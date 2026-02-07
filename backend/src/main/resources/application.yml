@@ -3,9 +3,9 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/project_management?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/project_management?useSSL=false&serverTimezone=UTC
     username: root
-    password: 5911
+    password:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:

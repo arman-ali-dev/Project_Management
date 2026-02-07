@@ -4,22 +4,23 @@ import Drawer from "@mui/material/Drawer";
 
 import plusIcon from "../../assets/plus.png";
 import
-    {
-        Select,
-        MenuItem,
-        Button,
-        Snackbar,
-        Alert,
-        CircularProgress,
-        Avatar,
-        IconButton,
-    } from "@mui/material";
+{
+    Select,
+    MenuItem,
+    Button,
+    Snackbar,
+    Alert,
+    CircularProgress,
+    Avatar,
+    IconButton,
+} from "@mui/material";
 
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { createProject } from "../../redux/admin/projectSlice";
+import { updateProject } from "../../redux/admin/projectSlice";
 import { useDispatch, useSelector } from "react-redux";
 import editIcon from "../../assets/edit2.png";
+import editIcon2 from "../../assets/edit.png";
 import { uploadToCloudinary } from "../../util/uploadToCloudinary";
 import uploadIcon from "../../assets/upload.png";
 
@@ -53,7 +54,7 @@ const projectValidationSchema = Yup.object( {
     logo: Yup.string().required( "Logo is required" ),
 } );
 
-export default function AddProjectForm ( { toggleDrawer, open } )
+export default function editProjectForm ( { selectedProject, toggleDrawer, open } )
 {
     const dispatch = useDispatch();
     const [ openSnack, setOpenSnack ] = React.useState( false );
@@ -64,17 +65,23 @@ export default function AddProjectForm ( { toggleDrawer, open } )
     const [ uploading, setUploading ] = React.useState( false );
 
     const formik = useFormik( {
+        enableReinitialize: true,
         initialValues: {
-            name: "",
-            url: "",
-            description: "",
-            organizationName: "",
-            progress: "",
-            priority: "",
-            status: "",
-            startDate: "",
-            dueDate: "",
-            logo: "",
+            name: selectedProject?.name || "",
+            url: selectedProject?.url || "",
+            description: selectedProject?.description || "",
+            organizationName: selectedProject?.organizationName || "",
+            progress: selectedProject?.progress || "",
+            priority: selectedProject?.priority || "",
+            status: selectedProject?.status || "",
+            startDate: selectedProject?.startDate
+                ? selectedProject.startDate.split( "T" )[ 0 ]
+                : "",
+
+            dueDate: selectedProject?.endDate
+                ? selectedProject.endDate.split( "T" )[ 0 ]
+                : "",
+            logo: selectedProject?.logo || "",
         },
         validationSchema: projectValidationSchema,
         onSubmit: ( values, { resetForm } ) =>
@@ -85,14 +92,15 @@ export default function AddProjectForm ( { toggleDrawer, open } )
                 ...values,
                 startDate: `${ values.startDate }T00:00:00`,
                 endDate: `${ values.dueDate }T23:59:59`,
+                id: selectedProject?.id
             };
 
-            dispatch( createProject( payload ) )
+            dispatch( updateProject( payload ) )
                 .unwrap()
                 .then( () =>
                 {
                     setSnackType( "success" );
-                    setSnackMessage( "Project Created" );
+                    setSnackMessage( "Project Updated" );
                     setOpenSnack( true );
 
                     resetForm();
@@ -107,7 +115,7 @@ export default function AddProjectForm ( { toggleDrawer, open } )
         },
     } );
 
-    const { createProjectLoading } = useSelector( ( state ) => state.adminProject );
+    const { updateProjectLoading } = useSelector( ( state ) => state.adminProject );
 
     const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
@@ -148,7 +156,7 @@ export default function AddProjectForm ( { toggleDrawer, open } )
         >
             <div className="px-8 py-10">
                 <h2 className="font-semibold flex gap-3 items-center">
-                    <img src={ plusIcon } className="w-4" alt="" /> Add New Project
+                    <img src={ editIcon2 } className="w-4.5" alt="" /> Edit Project
                 </h2>
 
                 <form onSubmit={ formik.handleSubmit } className="mt-5 space-y-4">
@@ -449,7 +457,7 @@ export default function AddProjectForm ( { toggleDrawer, open } )
 
                         <Button
                             type="submit"
-                            disabled={ createProjectLoading }
+                            disabled={ updateProjectLoading }
                             sx={ {
                                 textTransform: "capitalize",
                                 backgroundColor: "#000",
@@ -457,14 +465,14 @@ export default function AddProjectForm ( { toggleDrawer, open } )
                                 color: "#fff",
                                 paddingX: "20px",
                                 fontSize: "14px",
-                                minWidth: "126px",
+                                minWidth: "109px",
                             } }
                         >
-                            { createProjectLoading && (
+                            { updateProjectLoading && (
                                 <CircularProgress size={ 15 } sx={ { color: "#fff" } } />
                             ) }
 
-                            { !createProjectLoading && <span>Add Project</span> }
+                            { !updateProjectLoading && <span>Update Project</span> }
                         </Button>
                     </div>
                 </form>

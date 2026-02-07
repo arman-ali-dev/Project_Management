@@ -6,8 +6,8 @@ import searchIcon from "../../assets/search.png";
 import AddMemberForm from "./AddMemberForm";
 import filterIcon from "../../assets/filter.png";
 
-import { Divider, Menu, MenuItem } from "@mui/material";
-import { useDispatch } from "react-redux";
+import { Divider, Menu, MenuItem, Skeleton } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchUsers, searchUsers } from "../../redux/admin/userSlice";
 
 const Users = () =>
@@ -64,6 +64,13 @@ const Users = () =>
             dispatch( searchUsers( search ) );
         }
     }, [ search, status, dispatch ] );
+
+
+
+
+    const { loading } = useSelector(
+        ( state ) => state.adminUser,
+    );
 
     return (
         <>
@@ -173,7 +180,6 @@ const Users = () =>
                         </IconButton>
                     </div>
                 </div>
-
                 <div className="bg-white shadow mt-4 rounded-lg px-5 py-4">
                     <div className="flex justify-between items-center">
                         <h3 className="text-[16px] font-semibold">Users List</h3>
@@ -187,5 +193,6 @@ const Users = () =>
         </>
     );
 };
+
 
 export default Users;

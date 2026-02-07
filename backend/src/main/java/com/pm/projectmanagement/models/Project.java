@@ -53,6 +53,8 @@ public class Project {
     @NotNull
     private String logo;
 
+    private String organizationName;
+
     @NotNull
     private String url;
 

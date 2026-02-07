@@ -47,7 +47,7 @@ public class Task {
     @NotNull
     private LocalDate dueDate;
 
-    private LocalDateTime estimatedTime;
+    private Long estimatedTime;
 
     @ManyToOne
     @JoinColumn(name = "project_id")
@@ -72,6 +72,9 @@ public class Task {
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
+
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Document> supportDocuments;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

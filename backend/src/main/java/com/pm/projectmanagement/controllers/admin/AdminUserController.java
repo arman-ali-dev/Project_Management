@@ -40,10 +40,10 @@ public class AdminUserController {
             @RequestParam(required = false) UserStatus status
     ) {
         if (status != null) {
-            return ResponseEntity.ok(userService.getUsersByStatus(status));
+            return new ResponseEntity<>(userService.getUsersByStatus(status), HttpStatus.OK);
         }
 
-        return ResponseEntity.ok(userService.getAllUsers());
+        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -56,8 +56,7 @@ public class AdminUserController {
     public ResponseEntity<List<User>> searchUsers(
             @RequestParam String keyword
     ) {
-        return ResponseEntity.ok(
-                userService.searchUsers(keyword)
-        );
+        List<User> users = userService.searchUsers(keyword);
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 }

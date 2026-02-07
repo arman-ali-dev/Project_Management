@@ -1,33 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTasks } from "../../redux/admin/taskSlice";
+import userAvatar from "../../assets/userAvatar.png";
+import { Tooltip, Skeleton, Pagination } from "@mui/material";
 
 const TaskTable = () =>
 {
-    const tasks = [
-        {
-            title: "Catalog",
-            assignedDate: "5/14/2026",
-            status: "In Progress",
-            dueDate: "5/14/2026",
-            priority: "High",
-            progress: 50,
-            assignees: [
-                "https://i.pravatar.cc/150?u=1",
-                "https://i.pravatar.cc/150?u=2",
-            ],
-        },
-        {
-            title: "Develop",
-            assignedDate: "5/14/2026",
-            status: "Done",
-            dueDate: "5/14/2026",
-            priority: "Low",
-            progress: 0,
-            assignees: [
-                "https://i.pravatar.cc/150?u=3",
-                "https://i.pravatar.cc/150?u=4",
-            ],
-        },
-    ];
+    const dispatch = useDispatch();
+
+    useEffect( () =>
+    {
+        const token = localStorage.getItem( "jwt" );
+        if ( !token ) return;
+
+        dispatch( fetchTasks() );
+    }, [ dispatch ] );
+
+    const { tasks, loading } = useSelector( ( state ) => state.adminTask );
+
+    // Pagination
+
+    const [ page, setPage ] = useState( 1 );
+    const rowsPerPage = 7;
+
+    const startIndex = ( page - 1 ) * rowsPerPage;
+    const endIndex = startIndex + rowsPerPage;
+    const paginatedTasks = tasks?.slice( startIndex, endIndex );
+    const totalPages = Math.ceil( tasks?.length / rowsPerPage ) || 1;
+
 
     return (
         <div className="rounded-2xl shadow px-6 py-5 mt-4 bg-white">
@@ -37,17 +37,19 @@ const TaskTable = () =>
                     <thead>
                         <tr className="text-[13px] font-semibold border-b border-gray-300">
                             <th className="pb-4 pr-4">Title</th>
+                            <th className="pb-4 px-4">Estimated Time</th>
                             <th className="pb-4 px-4">Assigned Date</th>
                             <th className="pb-4 px-4">Status</th>
                             <th className="pb-4 px-4">Due Date</th>
                             <th className="pb-4 px-4">Priority</th>
-                            <th className="pb-4 px-4">Assigned To</th>
-                            <th className="pb-4 pl-4">Progress</th>
+                            <th className="pb-4 pl-4">Assigned To</th>
                         </tr>
                     </thead>
 
                     <tbody className="divide-y divide-gray-50">
-                        { tasks.map( ( task, index ) => (
+                        { loading ? Array.from( { length: 5 } ).map( ( _, i ) => (
+                            <TableSkeletonRow key={ i } />
+                        ) ) : paginatedTasks?.map( ( task, index ) => (
                             <tr
                                 key={ index }
                                 className="group hover:bg-gray-50 transition-colors"
@@ -56,8 +58,12 @@ const TaskTable = () =>
                                     { task.title }
                                 </td>
 
+                                <td className="py-4 px-4 text-[13px] font-medium text-gray-700">
+                                    { task.estimatedTime } Hours
+                                </td>
+
                                 <td className="py-4 px-4 text-[13px] text-gray-600">
-                                    { task.assignedDate }
+                                    { task.createdAt.split( "T" )[ 0 ] }
                                 </td>
 
                                 <td className="py-4 px-4">
@@ -86,42 +92,92 @@ const TaskTable = () =>
                                     </span>
                                 </td>
 
+
+
                                 <td className="py-4 px-4">
                                     <div className="flex items-center -space-x-2">
                                         <div className="w-7 h-7 rounded-full border-2 border-white bg-gray-100 flex items-center justify-center text-gray-400 text-lg font-light cursor-pointer hover:bg-gray-200 transition-colors">
                                             +
                                         </div>
-                                        { task.assignees.map( ( url, i ) => (
-                                            <img
-                                                key={ i }
-                                                src={ url }
-                                                alt="user"
-                                                className="w-7 h-7 rounded-full border-2 border-white object-cover"
-                                            />
+                                        { task?.assignedTo?.map( ( u, i ) => (
+                                            <Tooltip key={ i } title={ u.fullName }>
+                                                { " " }
+                                                <img
+                                                    src={ u.profileImage || userAvatar }
+                                                    alt="user"
+                                                    className="w-7 h-7 rounded-full border-2 border-white object-cover"
+                                                />
+                                            </Tooltip>
                                         ) ) }
                                     </div>
                                 </td>
 
-                                <td className="py-0 pl-4 min-w-35">
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-full bg-gray-100 rounded-full h-1.5">
-                                            <div
-                                                className={ `h-full rounded-full ${ task.progress > 0 ? "bg-green-500" : "bg-transparent" }` }
-                                                style={ { width: `${ task.progress }%` } }
-                                            ></div>
-                                        </div>
-                                        <span className="text-[11px] font-bold text-gray-800">
-                                            { task.progress }%
-                                        </span>
-                                    </div>
-                                </td>
+
                             </tr>
                         ) ) }
                     </tbody>
                 </table>
             </div>
+
+            <div className="flex justify-center mt-10 mb-2">
+                <Pagination
+                    count={ totalPages }
+                    page={ page }
+                    onChange={ ( event, value ) => setPage( value ) }
+                    shape="rounded"
+                    sx={ {
+                        "& .MuiPaginationItem-root": {
+                            "&:hover": {
+                                backgroundColor: "#f5f5f5",
+                            },
+                        },
+                        "& .Mui-selected": {
+                            backgroundColor: "black !important",
+                            color: "white !important",
+                            "&:hover": {
+                                backgroundColor: "#333 !important",
+                            },
+                        },
+                    } }
+                />
+            </div>
         </div>
     );
 };
+
+const TableSkeletonRow = () => (
+    <tr>
+        <td className="py-4 pr-4">
+            <Skeleton variant="text" width="80%" height={ 20 } />
+        </td>
+
+        <td className="py-4 px-4">
+            <Skeleton variant="text" width="60%" height={ 20 } />
+        </td>
+
+        <td className="py-4 px-4">
+            <Skeleton variant="text" width="70%" height={ 20 } />
+        </td>
+
+        <td className="py-4 px-4">
+            <Skeleton variant="rounded" width={ 90 } height={ 26 } />
+        </td>
+
+        <td className="py-4 px-4">
+            <Skeleton variant="text" width="70%" height={ 20 } />
+        </td>
+
+        <td className="py-4 px-4">
+            <Skeleton variant="rounded" width={ 70 } height={ 26 } />
+        </td>
+
+        <td className="py-4 px-4">
+            <div className="flex gap-2">
+                <Skeleton className="-mr-5" variant="circular" width={ 28 } height={ 28 } />
+                <Skeleton variant="circular" width={ 28 } height={ 28 } />
+            </div>
+        </td>
+    </tr>
+);
 
 export default TaskTable;

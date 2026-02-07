@@ -43,6 +43,12 @@ public class Document {
     @JoinColumn(name = "folder_id")
     private Folder folder;
 
+
+    @ManyToOne
+    @JoinColumn(name = "task_id")
+    @JsonIgnore
+    private Task task;
+
     @Enumerated(EnumType.STRING)
     @NotNull
     private DocumentVisibility visibility;

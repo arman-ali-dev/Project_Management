@@ -1,13 +1,44 @@
 import searchIcon from "../../assets/search.png";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import plusIcon from "../../assets/plus.png";
 import filterIcon from "../../assets/filter.png";
-import ProjectCard from "./ProjectCard";
+import ProjectCard, { ProjectCardSkeleton } from "./ProjectCard";
 import AddProjectForm from "./AddProjectForm";
-import { Divider, IconButton, Menu, MenuItem } from "@mui/material";
+import { Divider, IconButton, Menu, MenuItem, Skeleton } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProjects, searchProjects } from "../../redux/admin/projectSlice";
 
 const Projects = () =>
 {
+    const dispatch = useDispatch();
+
+    // Filter
+    const [ status, setStatus ] = useState( null );
+    const [ priority, setPriority ] = useState( null );
+
+    // Search
+    const [ search, setSearch ] = useState( "" );
+
+    useEffect( () =>
+    {
+        const token = localStorage.getItem( "jwt" );
+
+        if ( !token )
+        {
+            window.location.href = "/login";
+            return;
+        }
+
+        if ( search.trim() === "" )
+        {
+            dispatch( fetchProjects( { status, priority } ) );
+        } else
+        {
+            dispatch( searchProjects( search ) );
+        }
+
+    }, [ dispatch, status, priority, search ] );
+
     const [ open, setOpen ] = React.useState( false );
 
     const toggleDrawer = ( value ) => ( event ) =>
@@ -33,6 +64,8 @@ const Projects = () =>
         setFilterAnchorEl( null );
     };
 
+    const { projects, loading } = useSelector( ( state ) => state.adminProject );
+
     return (
         <>
             <div className=" mt-4 mx-8 relative">
@@ -45,12 +78,13 @@ const Projects = () =>
                             <img className="w-3" src={ searchIcon } alt="" />
                         </div>
                         <input
+                            value={ search }
+                            onChange={ ( e ) => setSearch( e.target.value ) }
                             className="placeholder:text-[#000000] border-0 mt-1 outline-0 text-[13px] placeholder:text-[13px] opacity-80"
                             type="text"
                             placeholder="Search a project..."
                         />
                     </div>
-
 
                     <div className="flex gap-2">
                         <div>
@@ -81,43 +115,89 @@ const Projects = () =>
                                     sx: { width: 180, borderRadius: "8px" },
                                 } }
                             >
-                                <MenuItem sx={ { fontSize: "13px", fontWeight: 700 } }>
+                                <MenuItem
+                                    onClick={ () =>
+                                    {
+                                        setStatus( null );
+                                        setPriority( null );
+                                        handleCloseFilterDropDown();
+                                    } }
+                                    sx={ { fontSize: "13px", fontWeight: 700 } }
+                                >
                                     All Projects
                                 </MenuItem>
 
                                 <Divider />
 
-                                <MenuItem sx={ { fontSize: "13px", fontWeight: 700 } }>
+                                <MenuItem
+                                    onClick={ () =>
+                                    {
+                                        setStatus( "ACTIVE" );
+                                        setPriority( null );
+                                        handleCloseFilterDropDown();
+                                    } }
+                                    sx={ { fontSize: "13px", fontWeight: 700 } }
+                                >
                                     Active Projects
                                 </MenuItem>
-                                <MenuItem sx={ { fontSize: "13px", fontWeight: 700 } }>
+                                <MenuItem
+                                    onClick={ () =>
+                                    {
+                                        setStatus( "COMPLETED" );
+                                        setPriority( null );
+
+                                        handleCloseFilterDropDown();
+                                    } }
+                                    sx={ { fontSize: "13px", fontWeight: 700 } }
+                                >
                                     Completed Projects
                                 </MenuItem>
-                                <MenuItem sx={ { fontSize: "13px", fontWeight: 700 } }>
+                                <MenuItem
+                                    onClick={ () =>
+                                    {
+                                        setStatus( "ON_HOLD" );
+                                        setPriority( null );
+
+                                        handleCloseFilterDropDown();
+                                    } }
+                                    sx={ { fontSize: "13px", fontWeight: 700 } }
+                                >
                                     On Hold
                                 </MenuItem>
-                                <MenuItem sx={ { fontSize: "13px", fontWeight: 700 } }>
-                                    Archived
-                                </MenuItem>
 
                                 <Divider />
 
-                                <MenuItem sx={ { fontSize: "13px", fontWeight: 700 } }>
-                                    Ending Soon
-                                </MenuItem>
-                                <MenuItem sx={ { fontSize: "13px", fontWeight: 700 } }>
-                                    Overdue Projects
-                                </MenuItem>
-
-                                <Divider />
-
-                                <MenuItem sx={ { fontSize: "13px", fontWeight: 700 } }>
+                                <MenuItem
+                                    onClick={ () =>
+                                    {
+                                        setPriority( "HIGH" );
+                                        setStatus( null );
+                                        handleCloseFilterDropDown();
+                                    } }
+                                    sx={ { fontSize: "13px", fontWeight: 700 } }
+                                >
                                     High Priority
                                 </MenuItem>
-                                <MenuItem sx={ { fontSize: "13px", fontWeight: 700 } }>
+                                <MenuItem
+                                    onClick={ () =>
+                                    {
+                                        setPriority( "MEDIUM" );
+                                        setStatus( null );
+                                        handleCloseFilterDropDown();
+                                    } }
+                                    sx={ { fontSize: "13px", fontWeight: 700 } }
+                                >
                                     Medium Priority
                                 </MenuItem>
-                                <MenuItem sx={ { fontSize: "13px", fontWeight: 700 } }>
+                                <MenuItem
+                                    onClick={ () =>
+                                    {
+                                        setPriority( "LOW" );
+                                        setStatus( null );
+                                        handleCloseFilterDropDown();
+                                    } }
+                                    sx={ { fontSize: "13px", fontWeight: 700 } }
+                                >
                                     Low Priority
                                 </MenuItem>
                             </Menu>
@@ -149,9 +229,13 @@ const Projects = () =>
                 </div>
 
                 <div className="grid grid-cols-3 gap-5 mt-6">
-                    <ProjectCard />
-                    <ProjectCard />
-                    <ProjectCard />
+                    { loading
+                        ? Array.from( { length: 3 } ).map( ( _, index ) => (
+                            <ProjectCardSkeleton key={ index } />
+                        ) )
+                        : projects.map( ( project ) => (
+                            <ProjectCard project={ project } key={ project.id } />
+                        ) ) }
                 </div>
             </div>
 
