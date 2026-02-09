@@ -29,6 +29,8 @@ public class JwtValidator extends OncePerRequestFilter {
 
         String requestUri = request.getRequestURI();
 
+        System.out.println(requestUri);
+
         if (requestUri.startsWith("/auth")
                 || requestUri.startsWith("/health-check")
                 || requestUri.startsWith("/favicon")) {

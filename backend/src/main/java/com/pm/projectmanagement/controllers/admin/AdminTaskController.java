@@ -1,5 +1,7 @@
 package com.pm.projectmanagement.controllers.admin;
 
+import com.pm.projectmanagement.enums.Priority;
+import com.pm.projectmanagement.enums.ProjectStatus;
 import com.pm.projectmanagement.enums.TaskStatus;
 import com.pm.projectmanagement.models.Task;
 import com.pm.projectmanagement.requests.CreateTaskRequest;
@@ -47,8 +49,14 @@ public class AdminTaskController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Task>> changeStatusHandler() {
-        List<Task> tasks = taskService.getAllTasks();
-        return new ResponseEntity<>(tasks, HttpStatus.OK);
+    public ResponseEntity<List<Task>> changeStatusHandler(
+            @RequestParam(required = false) TaskStatus status,
+            @RequestParam(required = false) Priority priority) {
+
+        if (status != null || priority != null) {
+            return new ResponseEntity<>(taskService.filterTasks(status, priority), HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(taskService.getAllTasks(), HttpStatus.OK);
     }
 }

@@ -51,7 +51,6 @@ public class Task {
 
     @ManyToOne
     @JoinColumn(name = "project_id")
-    @JsonIgnore
     private Project project;
 
     @ManyToMany

@@ -34,11 +34,14 @@ public class TaskController {
 
     @PatchMapping("/{id}/status")
     public ResponseEntity<Task> changeStatusHandler(@PathVariable Long id, @RequestParam TaskStatus status) {
-
-        System.out.println("Status: ------------------- " + status);
-
         Task task = taskService.changeStatus(id, status);
         return new ResponseEntity<>(task, HttpStatus.OK);
+    }
+
+    @GetMapping("/projects/{projectId}")
+    public ResponseEntity<List<Task>> getTasksByProject(@PathVariable Long projectId) {
+        List<Task> tasks = taskService.getTasksByProject(projectId);
+        return new ResponseEntity<>(tasks, HttpStatus.OK);
     }
 
 }

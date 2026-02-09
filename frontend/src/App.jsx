@@ -34,23 +34,25 @@ const App = () =>
 
     return (
         <>
-            <div className="flex items-start">
+            <div className="flex h-screen overflow-hidden">
                 { !isAuthPage && <Sidebar /> }
-                <div className={ `w-full ${ !isAuthPage && "ml-76.25" }  pb-10` }>
+                <div className={ `flex-1 flex flex-col ${ !isAuthPage ? "ml-76.25" : "" } overflow-hidden` }>
                     { !isAuthPage && <Navbar /> }
-                    <Routes>
-                        <Route path="/dashboard" element={ <Dashboard /> } />
-                        <Route path="/projects" element={ <Projects /> } />
-                        <Route path="/projects/:projectId/kanban" element={ <KanbanBoard /> } />
-                        <Route path="/my-tasks" element={ <MyTasks /> } />
-                        <Route path="/calendar" element={ <Calendar /> } />
-                        <Route path="/chat" element={ <Chat /> } />
-                        <Route path="/drive" element={ <Drive /> } />
-                        <Route path="/users" element={ <Users /> } />
-                        <Route path="/profile" element={ <Profile /> } />
-                        <Route path="/signin" element={ <Signin /> } />
-                        <Route path="/set-password" element={ <SetPassword /> } />
-                    </Routes>
+                    <div className="flex-1 overflow-y-auto">
+                        <Routes>
+                            <Route path="/dashboard" element={ <Dashboard /> } />
+                            <Route path="/projects" element={ <Projects /> } />
+                            <Route path="/projects/:projectId/kanban" element={ <KanbanBoard /> } />
+                            <Route path="/my-tasks" element={ <MyTasks /> } />
+                            <Route path="/calendar" element={ <Calendar /> } />
+                            <Route path="/chat" element={ <Chat /> } />
+                            <Route path="/drive" element={ <Drive /> } />
+                            <Route path="/users" element={ <Users /> } />
+                            <Route path="/profile" element={ <Profile /> } />
+                            <Route path="/signin" element={ <Signin /> } />
+                            <Route path="/set-password" element={ <SetPassword /> } />
+                        </Routes>
+                    </div>
                 </div>
             </div>
         </>

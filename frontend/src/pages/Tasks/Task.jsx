@@ -6,8 +6,13 @@ import profilePic2 from "../../assets/profile2.jpg";
 import menuIcon from "../../assets/menu.png";
 import userAvatar from "../../assets/userAvatar.png";
 import { Divider, IconButton, Menu, MenuItem } from "@mui/material";
-import { updateTaskStatus, updateTaskStatusLocal } from "../../redux/member/taskSlice";
+import
+    {
+        updateTaskStatus,
+        updateTaskStatusLocal,
+    } from "../../redux/member/taskSlice";
 import { useDispatch } from "react-redux";
+import ViewTaskDetailsModal from "./ViewTaskDetailsModal";
 
 const Task = ( { task } ) =>
 {
@@ -38,6 +43,12 @@ const Task = ( { task } ) =>
     };
 
     const nextStatus = getNextStatus( task.status );
+
+    // View Details
+
+    const [ openDetailsModal, setOpenDetailsModal ] = React.useState( false );
+    const handleOpenDetailsModal = () => setOpenDetailsModal( true );
+    const handleCloseDetailsModal = () => setOpenDetailsModal( false );
 
     return (
         <>
@@ -102,7 +113,14 @@ const Task = ( { task } ) =>
                             sx: { width: 180, borderRadius: "8px" },
                         } }
                     >
-                        <MenuItem sx={ { fontSize: "13px", fontWeight: 700 } }>
+                        <MenuItem
+                            onClick={ () =>
+                            {
+                                handleOpenDetailsModal();
+                                handleCloseFilterDropDown();
+                            } }
+                            sx={ { fontSize: "13px", fontWeight: 700 } }
+                        >
                             View Details
                         </MenuItem>
 
@@ -127,8 +145,6 @@ const Task = ( { task } ) =>
                                         } ),
                                     );
                                 } }
-
-
                             >
                                 { nextStatus.label }
                             </MenuItem>
@@ -136,6 +152,12 @@ const Task = ( { task } ) =>
                     </Menu>
                 </div>
             </div>
+
+            <ViewTaskDetailsModal
+                task={ task }
+                open={ openDetailsModal }
+                handleClose={ handleCloseDetailsModal }
+            />
         </>
     );
 };

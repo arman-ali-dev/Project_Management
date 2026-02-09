@@ -3,6 +3,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import authReducer from "./member/authSlice";
 import userReducer from "./member/userSlice";
 import taskReducer from "./member/taskSlice";
+import projectReducer from "./member/projectSlice";
 
 import adminUserReducer from "./admin/userSlice";
 import adminProjectReducer from "./admin/projectSlice";
@@ -31,6 +32,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   user: userReducer,
   task: taskReducer,
+  project: projectReducer,
 
   // ADMIN
   adminUser: adminUserReducer,

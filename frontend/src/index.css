@@ -6,6 +6,23 @@
   font-family: "Lexend", sans-serif;
 }
 
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-y: hidden !important;
+}
+
+/* hide vertical scrollbar completely */
+::-webkit-scrollbar:vertical {
+  width: 0px;
+}
+
+body {
+  scrollbar-width: none;
+}
+
 body {
   background-color: #efefef;
 }
@@ -38,4 +55,22 @@ body {
 .dropdown::-webkit-scrollbar {
   display: none;
   scroll-behavior: smooth;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  height: 8px; /* horizontal scrollbar */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #ffffff;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #000000;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #333333;
 }

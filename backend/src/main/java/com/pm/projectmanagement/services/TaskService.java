@@ -1,5 +1,6 @@
 package com.pm.projectmanagement.services;
 
+import com.pm.projectmanagement.enums.Priority;
 import com.pm.projectmanagement.enums.TaskStatus;
 import com.pm.projectmanagement.models.Task;
 import com.pm.projectmanagement.requests.CreateTaskRequest;
@@ -20,4 +21,9 @@ public interface TaskService {
     Task changeStatus(Long id, TaskStatus status);
 
     List<Task> getAllMyTasks(Long userId);
+
+    List<Task> filterTasks(TaskStatus status, Priority priority);
+
+    List<Task> getTasksByProject(Long projectId);
+
 }

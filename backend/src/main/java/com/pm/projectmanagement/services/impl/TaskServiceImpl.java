@@ -1,5 +1,6 @@
 package com.pm.projectmanagement.services.impl;
 
+import com.pm.projectmanagement.enums.Priority;
 import com.pm.projectmanagement.enums.TaskStatus;
 import com.pm.projectmanagement.exceptions.NotFoundException;
 import com.pm.projectmanagement.models.Document;
@@ -10,6 +11,7 @@ import com.pm.projectmanagement.requests.CreateTaskRequest;
 import com.pm.projectmanagement.services.ProjectService;
 import com.pm.projectmanagement.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,7 +40,7 @@ public class TaskServiceImpl implements TaskService {
         Project project = projectService.getProject(request.getProject());
 
         task.setProject(project);
-        task.setStatus(TaskStatus.TODO);
+        task.setStatus(request.getStatus() != null ? request.getStatus() : TaskStatus.TODO);
         task.setPriority(request.getPriority());
         task.setEstimatedTime(request.getEstimatedTime());
         task.setDueDate(request.getDueDate());
@@ -119,7 +121,6 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task changeStatus(Long id, TaskStatus status) {
-        System.out.println("Status: ------------------- " + status);
         Task task = this.getTask(id);
         task.setStatus(status);
         return taskRepository.save(task);
@@ -128,5 +129,27 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<Task> getAllMyTasks(Long userId) {
         return taskRepository.findAllTasksAssignedToUser(userId);
+    }
+
+    @Override
+    public List<Task> filterTasks(TaskStatus status, Priority priority) {
+        if (status != null) {
+            return taskRepository
+                    .findByStatusOrderByCreatedAtDesc(status);
+        }
+
+        if (priority != null) {
+            return taskRepository
+                    .findByPriorityOrderByCreatedAtDesc(priority);
+        }
+
+        return taskRepository.findAll(
+                Sort.by(Sort.Direction.DESC, "createdAt")
+        );
+    }
+
+    @Override
+    public List<Task> getTasksByProject(Long projectId) {
+        return taskRepository.findByProjectId(projectId);
     }
 }

@@ -59,10 +59,40 @@ export const updateTaskStatus = createAsyncThunk(
   },
 );
 
+export const fetchTasksByProject = createAsyncThunk(
+  "task/fetchTasksByProject",
+  async (projectId, { rejectWithValue }) => {
+    try {
+      console.log("project ", projectId);
+
+      const token = localStorage.getItem("jwt");
+
+      const { data } = await axios.get(
+        `http://localhost:8080/api/tasks/projects/${projectId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      console.log("Fetched tasks by project", data);
+
+      return data;
+    } catch (err) {
+      console.log("tasks: ", err);
+      return rejectWithValue(err.response?.data || err.message);
+    }
+  },
+);
+
 const initialState = {
   tasks: [],
   loading: false,
   error: null,
+
+  tasksByProject: [],
+  loadingProjectTasks: false,
 };
 
 const taskSlice = createSlice({
@@ -77,6 +107,10 @@ const taskSlice = createSlice({
       if (task) {
         task.status = status;
       }
+    },
+
+    clearTasksProject: (state, action) => {
+      state.tasksByProject = [];
     },
   },
 
@@ -106,9 +140,23 @@ const taskSlice = createSlice({
       })
       .addCase(updateTaskStatus.rejected, (state, action) => {
         state.error = action.payload;
+      })
+
+      // Get Tasks By Project
+      .addCase(fetchTasksByProject.pending, (state) => {
+        state.loadingProjectTasks = true;
+        state.error = null;
+      })
+      .addCase(fetchTasksByProject.fulfilled, (state, action) => {
+        state.loadingProjectTasks = false;
+        state.tasksByProject = action.payload;
+      })
+      .addCase(fetchTasksByProject.rejected, (state, action) => {
+        state.loadingProjectTasks = false;
+        state.error = action.payload;
       });
   },
 });
 
 export default taskSlice.reducer;
-export const { updateTaskStatusLocal } = taskSlice.actions;
+export const { updateTaskStatusLocal, clearTasksProject } = taskSlice.actions;

@@ -69,8 +69,8 @@ const ProjectCard = ( { project } ) =>
         <div
           onClick={ () =>
           {
+            navigate( `/projects/${ project.id }/kanban` );
             toggleDrawer( false )();
-            navigate( "/projects/123/kanban" );
           } }
           className="bg-white group relative cursor-pointer rounded-xl shadow px-6 py-5"
         >
