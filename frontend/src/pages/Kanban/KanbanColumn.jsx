@@ -5,6 +5,7 @@ import KanbanCard, { KanbanCardSkeleton } from "./KanbanCard";
 import menuIcon from "../../assets/menu.png";
 import { Droppable } from "@hello-pangea/dnd";
 import CreateNewTaskForm from "./CreateNewTaskForm";
+import { useSelector } from "react-redux";
 
 const KanbanColumn = ( { title, tasks, loading, projectId, status } ) =>
 {
@@ -24,6 +25,8 @@ const KanbanColumn = ( { title, tasks, loading, projectId, status } ) =>
         setOpen( value );
     };
 
+    const { user } = useSelector( state => state.user )
+
     return (
         <>
             <div
@@ -33,6 +36,7 @@ const KanbanColumn = ( { title, tasks, loading, projectId, status } ) =>
                 <div className="flex justify-between items-center">
                     <div className="flex gap-3 items-center">
                         <IconButton
+                            disabled={ user?.role !== "ADMIN" }
                             onClick={ ( e ) =>
                             {
                                 e.stopPropagation();
@@ -41,12 +45,23 @@ const KanbanColumn = ( { title, tasks, loading, projectId, status } ) =>
                             sx={ {
                                 width: 38,
                                 height: 38,
-                                backgroundColor: "#EFEFEF",
-                                cursor: "pointer",
                                 borderRadius: "8px",
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
+
+                                backgroundColor: "#EFEFEF",
+
+                                opacity: 1,
+                                filter: "none",
+
+                                "&.Mui-disabled": {
+                                    backgroundColor: "#EFEFEF",
+                                    opacity: 0.9,
+                                    filter: "blur(1px)",
+                                    cursor: "not-allowed",
+                                },
+
                                 "&:hover": {
                                     backgroundColor: "#EFEFEF",
                                 },
@@ -70,10 +85,11 @@ const KanbanColumn = ( { title, tasks, loading, projectId, status } ) =>
                             <div
                                 ref={ provided.innerRef }
                                 { ...provided.droppableProps }
-                                className="mt-5 space-y-4 min-h-[40px]"
+                                className="mt-5 space-y-4 min-h-10"
                             >
                                 { loading ? (
-                                    <KanbanCardSkeleton />
+                                    [ 1, 2 ].map( ( elem ) => <KanbanCardSkeleton key={ elem } />
+                                    )
                                 ) : (
                                     tasks.map( ( task, idx ) => (
                                         <KanbanCard task={ task } idx={ idx } key={ task.id } />

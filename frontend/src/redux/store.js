@@ -4,6 +4,8 @@ import authReducer from "./member/authSlice";
 import userReducer from "./member/userSlice";
 import taskReducer from "./member/taskSlice";
 import projectReducer from "./member/projectSlice";
+import folderReducer from "./member/folderSlice";
+import documentReducer from "./member/documentSlice";
 
 import adminUserReducer from "./admin/userSlice";
 import adminProjectReducer from "./admin/projectSlice";
@@ -33,6 +35,8 @@ const rootReducer = combineReducers({
   user: userReducer,
   task: taskReducer,
   project: projectReducer,
+  folder: folderReducer,
+  document: documentReducer,
 
   // ADMIN
   adminUser: adminUserReducer,

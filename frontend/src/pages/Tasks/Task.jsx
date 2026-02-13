@@ -1,16 +1,14 @@
 import React from "react";
 import dragIcon from "../../assets/drag.png";
 import messageIcon from "../../assets/mes.png";
-import profilePic from "../../assets/profile.jpg";
-import profilePic2 from "../../assets/profile2.jpg";
 import menuIcon from "../../assets/menu.png";
 import userAvatar from "../../assets/userAvatar.png";
 import { Divider, IconButton, Menu, MenuItem } from "@mui/material";
 import
-    {
-        updateTaskStatus,
-        updateTaskStatusLocal,
-    } from "../../redux/member/taskSlice";
+{
+    updateTaskStatus,
+    updateTaskStatusLocal,
+} from "../../redux/member/taskSlice";
 import { useDispatch } from "react-redux";
 import ViewTaskDetailsModal from "./ViewTaskDetailsModal";
 
@@ -19,10 +17,12 @@ const Task = ( { task } ) =>
     const dispatch = useDispatch();
     const [ filterAnchorEl, setFilterAnchorEl ] = React.useState( null );
     const openFilterDropDown = Boolean( filterAnchorEl );
+
     const handleClick = ( event ) =>
     {
         setFilterAnchorEl( event.currentTarget );
     };
+
     const handleCloseFilterDropDown = () =>
     {
         setFilterAnchorEl( null );

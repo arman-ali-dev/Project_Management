@@ -2,8 +2,6 @@ import React, { useEffect } from "react";
 import { IconButton, Skeleton } from "@mui/material";
 import speechIcon from "../../assets/speech.png";
 import heartIcon from "../../assets/like.png";
-import ahitLogo from "../../assets/ahitlogo.webp";
-import downChevron from "../../assets/down.png";
 import KanbanColumn from "./KanbanColumn";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,12 +9,11 @@ import
 {
     clearTasksProject,
     fetchTasksByProject,
+    updateProjectTaskStatusLocal,
     updateTaskStatus,
-    updateTaskStatusLocal,
 } from "../../redux/member/taskSlice";
 import { fetchProject } from "../../redux/member/projectSlice";
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
-import CreateNewTaskForm from "./CreateNewTaskForm";
 
 const KanbanBoard = () =>
 {
@@ -73,8 +70,8 @@ const KanbanBoard = () =>
 
         // same column, same position
         if (
-            destination.droppableId === source.droppableId &&
-            destination.index === source.index
+            destination.droppableId == source.droppableId &&
+            destination.index == source.index
         )
         {
             return;
@@ -84,7 +81,7 @@ const KanbanBoard = () =>
         const newStatus = destination.droppableId;
 
         dispatch(
-            updateTaskStatusLocal( {
+            updateProjectTaskStatusLocal( {
                 taskId: draggableId,
                 status: newStatus,
             } ),
@@ -97,7 +94,6 @@ const KanbanBoard = () =>
             } ),
         );
     };
-
 
     return (
         <>
@@ -177,7 +173,7 @@ const KanbanBoard = () =>
 
                                 <KanbanColumn
                                     title="Reviews"
-                                    status="DONE"
+                                    status="REVIEW"
                                     projectId={ project?.id }
                                     tasks={ reviewsTasks }
                                     loading={ loadingProjectTasks }
@@ -195,8 +191,6 @@ const KanbanBoard = () =>
                     </div>
                 </div>
             </div>
-
-
         </>
     );
 };

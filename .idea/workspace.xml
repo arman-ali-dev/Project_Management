@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="b25e1e8b-378e-47cb-96af-4a25e4f8198c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/controllers/admin/AdminFolderController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/repositories/FolderRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/services/DocumentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/controllers/admin/AdminTaskController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/controllers/admin/AdminTaskController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/controllers/member/TaskController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/controllers/member/TaskController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/models/Document.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/models/Document.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/repositories/TaskRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/repositories/TaskRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/services/TaskService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/services/TaskService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/services/impl/TaskServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/services/impl/TaskServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Calendar/Calendar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Calendar/Calendar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Calendar/DateAndTask.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Calendar/DateAndTask.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Drive/Drive.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Drive/Drive.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Drive/FIleDetails.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Drive/FIleDetails.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Drive/File.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Drive/File.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Drive/PublicFiles.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Drive/PublicFiles.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Drive/PublicFilesList.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Drive/RecentFIles.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Drive/RecentFIles.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Kanban/KanbanBoard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Kanban/KanbanBoard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Kanban/KanbanCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Kanban/KanbanCard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Kanban/KanbanColumn.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Kanban/KanbanColumn.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Tasks/Task.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Tasks/Task.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/admin/taskSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/admin/taskSlice.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/member/taskSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/member/taskSlice.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/store.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 4
+}]]></component>
+  <component name="ProjectId" id="39c2adlTOAA0TGq999ph6zfJ3Va" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/intel/OneDrive/Documents/Project Management",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.30387.90" />
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.30387.90" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b25e1e8b-378e-47cb-96af-4a25e4f8198c" name="Changes" comment="" />
+      <created>1770981103017</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1770981103017</updated>
+      <workItem from="1770981104378" duration="15000" />
+    </task>
+    <servers />
+  </component>
+</project>

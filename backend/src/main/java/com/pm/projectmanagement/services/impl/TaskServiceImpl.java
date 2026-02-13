@@ -2,35 +2,49 @@ package com.pm.projectmanagement.services.impl;
 
 import com.pm.projectmanagement.enums.Priority;
 import com.pm.projectmanagement.enums.TaskStatus;
+import com.pm.projectmanagement.enums.UserRole;
 import com.pm.projectmanagement.exceptions.NotFoundException;
 import com.pm.projectmanagement.models.Document;
 import com.pm.projectmanagement.models.Project;
 import com.pm.projectmanagement.models.Task;
+import com.pm.projectmanagement.models.User;
 import com.pm.projectmanagement.repositories.TaskRepository;
 import com.pm.projectmanagement.requests.CreateTaskRequest;
 import com.pm.projectmanagement.services.ProjectService;
 import com.pm.projectmanagement.services.TaskService;
+import com.pm.projectmanagement.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.AccessDeniedException;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
     private final ProjectService projectService;
+    private final UserService userService;
 
 
     @Autowired
-    public TaskServiceImpl(TaskRepository taskRepository, ProjectService projectService) {
+    public TaskServiceImpl(TaskRepository taskRepository,
+                           ProjectService projectService,
+                           UserService userService) {
         this.taskRepository = taskRepository;
         this.projectService = projectService;
+        this.userService = userService;
     }
 
     @Override
-    public Task createTask(CreateTaskRequest request) {
+    public Task createTask(CreateTaskRequest request, String jwt) {
+
+        User user = userService.getUserProfile(jwt);
+
         Task task = new Task();
 
         task.setTitle(request.getTitle());
@@ -48,6 +62,7 @@ public class TaskServiceImpl implements TaskService {
 
         for (Document document : request.getDocuments()) {
             document.setTask(task);
+            document.setUploadedBy(user);
         }
 
         task.setSupportDocuments(request.getDocuments());
@@ -120,8 +135,23 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task changeStatus(Long id, TaskStatus status) {
+    public Task changeStatus(Long id, TaskStatus status, User user) throws AccessDeniedException {
+
         Task task = this.getTask(id);
+
+        boolean isAdmin = user.getRole() == UserRole.ADMIN;
+
+        boolean isAssignedUser = task.getAssignedTo() != null &&
+                task.getAssignedTo()
+                        .stream()
+                        .anyMatch(u -> u.getId().equals(user.getId()));
+
+        if (!isAdmin && !isAssignedUser) {
+            throw new AccessDeniedException(
+                    "You are not allowed to change the status of this task"
+            );
+        }
+
         task.setStatus(status);
         return taskRepository.save(task);
     }
@@ -152,4 +182,61 @@ public class TaskServiceImpl implements TaskService {
     public List<Task> getTasksByProject(Long projectId) {
         return taskRepository.findByProjectId(projectId);
     }
+
+    @Override
+    public Task addMember(Long taskId, List<User> users) {
+        Task task = this.getTask(taskId);
+        task.setAssignedTo(users);
+        return taskRepository.save(task);
+    }
+
+    @Override
+    public Map<LocalDate, Integer> getTasksCountByMonth(int month, int year, User user) {
+        LocalDate startDate = LocalDate.of(year, month, 1);
+        LocalDate endDate = startDate.plusMonths(1).minusDays(1);
+
+
+        List<Task> tasks;
+
+        if (user.getRole().equals(UserRole.ADMIN)) {
+            tasks = taskRepository.findByDueDateBetween(startDate, endDate);
+        } else {
+            tasks = taskRepository.findByDueDateBetweenAndAssignedToContaining(
+                    startDate,
+                    endDate,
+                    user
+            );
+        }
+
+        return tasks.stream()
+                .collect(Collectors.groupingBy(
+                        Task::getDueDate,
+                        Collectors.collectingAndThen(Collectors.counting(), Long::intValue)
+                ));
+    }
+
+    @Override
+    public Map<LocalDate, List<Task>> getTasksByDateForMonth(int month, int year, User user) {
+        LocalDate startDate = LocalDate.of(year, month, 1);
+        LocalDate endDate = startDate.plusMonths(1).minusDays(1);
+
+        List<Task> tasks;
+
+        if (user.getRole().equals(UserRole.ADMIN)) {
+            tasks = taskRepository.findByDueDateBetween(startDate, endDate);
+        } else {
+            tasks = taskRepository.findByDueDateBetweenAndAssignedToContaining(
+                    startDate,
+                    endDate,
+                    user
+            );
+        }
+
+
+        return tasks.stream()
+                .collect(Collectors.groupingBy(Task::getDueDate));
+
+    }
+
+
 }

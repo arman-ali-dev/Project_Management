@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { addMembersToTask, addTaskToProject } from "../member/taskSlice";
 
 export const fetchTasks = createAsyncThunk(
   "adminTask/fetchTasks",
@@ -23,11 +24,8 @@ export const fetchTasks = createAsyncThunk(
         },
       });
 
-      console.log("Fetched tasks successfully", data);
-
       return data;
     } catch (err) {
-      console.log("admin tasks: ", err);
       return rejectWithValue(err.response?.data || err.message);
     }
   },
@@ -35,7 +33,7 @@ export const fetchTasks = createAsyncThunk(
 
 export const createTask = createAsyncThunk(
   "adminTask/createTask",
-  async (taskData, { rejectWithValue }) => {
+  async (taskData, { rejectWithValue, dispatch }) => {
     console.log("Creating task with data:", taskData);
 
     try {
@@ -50,11 +48,35 @@ export const createTask = createAsyncThunk(
         },
       );
 
-      console.log("Created task successfully", data);
+      dispatch(addTaskToProject(data));
 
       return data;
     } catch (err) {
-      console.log("admin tasks: ", err);
+      return rejectWithValue(err.response?.data || err.message);
+    }
+  },
+);
+
+export const addMemberToTask = createAsyncThunk(
+  "adminTask/addMemberToTask",
+  async ({ taskId, selectedMembers }, { rejectWithValue, dispatch }) => {
+    try {
+      const token = localStorage.getItem("jwt");
+      const { data } = await axios.post(
+        `http://localhost:8080/api/admin/tasks/${taskId}/members`,
+        selectedMembers,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      console.log("member added: ", data);
+      dispatch(addMembersToTask(data));
+
+      return data;
+    } catch (err) {
       return rejectWithValue(err.response?.data || err.message);
     }
   },
@@ -66,12 +88,16 @@ const initialState = {
   error: null,
 
   createLoading: false,
+
+  addMembersLoading: false,
 };
 
 const taskSlice = createSlice({
   name: "adminTask",
   initialState,
-  reducers: {},
+  reducers: {
+    createNewTask: (state, action) => {},
+  },
 
   extraReducers: (builder) => {
     builder
@@ -99,6 +125,23 @@ const taskSlice = createSlice({
       })
       .addCase(createTask.rejected, (state, action) => {
         state.createLoading = false;
+        state.error = action.payload;
+      })
+
+      // Add Members To Task
+      .addCase(addMemberToTask.pending, (state) => {
+        state.addMembersLoading = true;
+        state.error = null;
+      })
+      .addCase(addMemberToTask.fulfilled, (state, action) => {
+        state.addMembersLoading = false;
+
+        state.tasks = state.tasks.map((task) =>
+          task.id == action.payload.id ? action.payload : task,
+        );
+      })
+      .addCase(addMemberToTask.rejected, (state, action) => {
+        state.addMembersLoading = false;
         state.error = action.payload;
       });
   },

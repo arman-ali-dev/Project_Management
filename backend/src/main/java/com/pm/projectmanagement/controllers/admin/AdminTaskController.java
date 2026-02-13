@@ -4,6 +4,7 @@ import com.pm.projectmanagement.enums.Priority;
 import com.pm.projectmanagement.enums.ProjectStatus;
 import com.pm.projectmanagement.enums.TaskStatus;
 import com.pm.projectmanagement.models.Task;
+import com.pm.projectmanagement.models.User;
 import com.pm.projectmanagement.requests.CreateTaskRequest;
 import com.pm.projectmanagement.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,9 @@ public class AdminTaskController {
     }
 
     @PostMapping
-    public ResponseEntity<Task> createTaskHandler(@RequestBody CreateTaskRequest request) {
-        Task createdTask = taskService.createTask(request);
+    public ResponseEntity<Task> createTaskHandler(@RequestBody CreateTaskRequest request,
+                                                  @RequestHeader("Authorization") String jwt) {
+        Task createdTask = taskService.createTask(request, jwt);
         return new ResponseEntity<>(createdTask, HttpStatus.CREATED);
     }
 
@@ -42,11 +44,6 @@ public class AdminTaskController {
         return new ResponseEntity<>("Task Deleted", HttpStatus.OK);
     }
 
-    @PatchMapping("/{id}/status")
-    public ResponseEntity<Task> changeStatusHandler(@PathVariable Long id, @RequestParam TaskStatus status) {
-        Task task = taskService.changeStatus(id, status);
-        return new ResponseEntity<>(task, HttpStatus.OK);
-    }
 
     @GetMapping("/all")
     public ResponseEntity<List<Task>> changeStatusHandler(
@@ -58,5 +55,11 @@ public class AdminTaskController {
         }
 
         return new ResponseEntity<>(taskService.getAllTasks(), HttpStatus.OK);
+    }
+
+    @PostMapping("/{taskId}/members")
+    public ResponseEntity<Task> addMemberToTaskHandler(@PathVariable Long taskId, @RequestBody List<User> users) {
+        Task task = taskService.addMember(taskId, users);
+        return new ResponseEntity<>(task, HttpStatus.OK);
     }
 }

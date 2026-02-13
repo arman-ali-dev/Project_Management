@@ -5,10 +5,12 @@ import com.pm.projectmanagement.enums.ProjectStatus;
 import com.pm.projectmanagement.enums.TaskStatus;
 import com.pm.projectmanagement.models.Project;
 import com.pm.projectmanagement.models.Task;
+import com.pm.projectmanagement.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
@@ -27,4 +29,12 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     List<Task> findByPriorityOrderByCreatedAtDesc(Priority priority);
 
     List<Task> findByProjectId(Long projectId);
+
+    List<Task> findByDueDateBetween(LocalDate startDate, LocalDate endDate);
+
+    List<Task> findByDueDateBetweenAndAssignedToContaining(
+            LocalDate startDate,
+            LocalDate endDate,
+            User user
+    );
 }

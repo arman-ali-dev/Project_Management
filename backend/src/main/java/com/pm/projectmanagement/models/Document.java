@@ -43,6 +43,9 @@ public class Document {
     @JoinColumn(name = "folder_id")
     private Folder folder;
 
+    @ManyToOne
+    @JoinColumn(name = "uploaded_by")
+    private User uploadedBy;
 
     @ManyToOne
     @JoinColumn(name = "task_id")

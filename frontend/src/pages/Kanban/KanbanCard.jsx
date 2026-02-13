@@ -1,15 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import chronometerIcon from "../../assets/chronometer.png";
 import teamIcon from "../../assets/team.png";
 import messageIcon from "../../assets/mes.png";
-import { IconButton } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 import plusIcon from "../../assets/plus.png";
 import userAvatar from "../../assets/userAvatar.png";
 import { Skeleton } from "@mui/material";
 import { Draggable } from "@hello-pangea/dnd";
+import AddMemberToTaskModal from "./AddMemberToTaskModal";
 
 const KanbanCard = ( { task, idx } ) =>
 {
+    const [ open, setOpen ] = useState( false );
+
+    const handleClose = () =>
+    {
+        setOpen( false );
+    };
+
+    const handleOpen = () =>
+    {
+        setOpen( true );
+    };
+
     return (
         <>
             <Draggable draggableId={ String( task.id ) } index={ idx }>
@@ -20,15 +33,20 @@ const KanbanCard = ( { task, idx } ) =>
                         { ...provided.dragHandleProps }
                     >
                         <div className="border-[rgba(221,221,221,.7)] relative border px-5 py-4 rounded-md">
-                            <h3 className="text-[14px] font-medium">{ idx + 1 }. { task.title }</h3>
+                            <h3 className="text-[14px] font-medium">
+                                { idx + 1 }. { task.title }
+                            </h3>
                             <p className="text-[12px] text-[#969696] mt-0.5 flex gap-3">
                                 <span>
                                     { " " }
-                                    { new Date( task.dueDate.split( "T" )[ 0 ] ).toLocaleDateString( "en-US", {
-                                        month: "short",
-                                        day: "numeric",
-                                        year: "numeric",
-                                    } ) }
+                                    { new Date( task.dueDate.split( "T" )[ 0 ] ).toLocaleDateString(
+                                        "en-US",
+                                        {
+                                            month: "short",
+                                            day: "numeric",
+                                            year: "numeric",
+                                        },
+                                    ) }
                                 </span>{ " " }
                                 <span> | </span>
                                 <span className="flex items-center gap-1">
@@ -74,20 +92,29 @@ const KanbanCard = ( { task, idx } ) =>
                             <div className="mt-4 flex items-center justify-between">
                                 <div className="flex gap-3 items-center">
                                     <div className="flex gap-1.5 items-center">
-                                        <img src={ teamIcon } alt="team icon" className="w-4.5 h-4.5 " />
+                                        <img
+                                            src={ teamIcon }
+                                            alt="team icon"
+                                            className="w-4.5 h-4.5 "
+                                        />
                                         <span className="text-[#969696] text-[11px]">
                                             { task.assignedTo.length }
                                         </span>
                                     </div>
 
                                     <div className="flex gap-1.5 items-center">
-                                        <img src={ messageIcon } alt="message icon" className="w-3 h-3 " />
+                                        <img
+                                            src={ messageIcon }
+                                            alt="message icon"
+                                            className="w-3 h-3 "
+                                        />
                                         <span className="text-[#969696] text-[11px]">0</span>
                                     </div>
                                 </div>
 
                                 <div className="flex">
                                     <IconButton
+                                        onClick={ handleOpen }
                                         sx={ {
                                             width: 33,
                                             height: 33,
@@ -105,22 +132,34 @@ const KanbanCard = ( { task, idx } ) =>
                                     >
                                         <img className="w-3" src={ plusIcon } alt="" />
                                     </IconButton>
+
+
                                     { task.assignedTo.map( ( member, idx ) => (
-                                        <img
-                                            className={ `w-8 h-8 z-50 relative border-white border rounded-full object-cover${ idx !== 0 ? "-mr-4" : "" }` }
-                                            src={ member?.profileImage || userAvatar }
-                                            alt=""
-                                        />
+                                        <Tooltip title={ member.fullName }>
+                                            <img
+                                                className={ `w-8 h-8 cursor-default z-50 relative border-white  border rounded-full object-cover ${ idx !== task.assignedTo.length - 1 ? "-mr-4" : "" }` }
+                                                src={ member?.profileImage || userAvatar }
+                                                alt=""
+                                            />
+                                        </Tooltip>
                                     ) ) }
                                 </div>
+
+
                             </div>
 
                             <div className="h-10 w-0.5 rounded-md bg-[#497AF5] lineShadow absolute left-0 top-4"></div>
                         </div>
-
                     </div>
                 ) }
             </Draggable>
+
+            <AddMemberToTaskModal
+                taskId={ task.id }
+                alreadyAssignedMembers={ task.assignedTo }
+                open={ open }
+                handleClose={ handleClose }
+            />
         </>
     );
 };
@@ -128,7 +167,6 @@ const KanbanCard = ( { task, idx } ) =>
 export const KanbanCardSkeleton = () =>
 {
     return (
-
         <div className="border border-[rgba(221,221,221,.7)] px-5 py-4 rounded-md">
             <Skeleton variant="text" width="80%" height={ 22 } />
             <Skeleton variant="text" width="60%" height={ 16 } />
@@ -155,6 +193,5 @@ export const KanbanCardSkeleton = () =>
         </div>
     );
 };
-
 
 export default KanbanCard;

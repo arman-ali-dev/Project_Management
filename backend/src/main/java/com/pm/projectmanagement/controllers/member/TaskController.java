@@ -10,7 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.AccessDeniedException;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/tasks")
@@ -33,8 +36,11 @@ public class TaskController {
     }
 
     @PatchMapping("/{id}/status")
-    public ResponseEntity<Task> changeStatusHandler(@PathVariable Long id, @RequestParam TaskStatus status) {
-        Task task = taskService.changeStatus(id, status);
+    public ResponseEntity<Task> changeStatusHandler(
+            @PathVariable Long id, @RequestParam TaskStatus status, @RequestHeader("Authorization") String jwt)
+            throws AccessDeniedException {
+        User user = userService.getUserProfile(jwt);
+        Task task = taskService.changeStatus(id, status, user);
         return new ResponseEntity<>(task, HttpStatus.OK);
     }
 
@@ -42,6 +48,29 @@ public class TaskController {
     public ResponseEntity<List<Task>> getTasksByProject(@PathVariable Long projectId) {
         List<Task> tasks = taskService.getTasksByProject(projectId);
         return new ResponseEntity<>(tasks, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/calendar")
+    public ResponseEntity<Map<LocalDate, Integer>> getTasksCountByDate(
+            @RequestParam int month,
+            @RequestParam int year,
+            @RequestHeader("Authorization") String jwt
+    ) {
+        User user = userService.getUserProfile(jwt);
+        Map<LocalDate, Integer> tasksCount = taskService.getTasksCountByMonth(month, year, user);
+        return ResponseEntity.ok(tasksCount);
+    }
+
+    @GetMapping("/calendar/details")
+    public ResponseEntity<Map<LocalDate, List<Task>>> getTasksCalendarDetails(
+            @RequestParam int month,
+            @RequestParam int year,
+            @RequestHeader("Authorization") String jwt
+    ) {
+        User user = userService.getUserProfile(jwt);
+        Map<LocalDate, List<Task>> tasksByDate = taskService.getTasksByDateForMonth(month, year, user);
+        return ResponseEntity.ok(tasksByDate);
     }
 
 }
