@@ -65,9 +65,6 @@ const Drive = () =>
         {
             setUploading( false );
         }
-
-
-
     };
 
 

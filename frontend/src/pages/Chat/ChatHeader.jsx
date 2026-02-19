@@ -3,6 +3,7 @@ import searchIcon from "../../assets/search2.png";
 import bellIcon from "../../assets/bell.png";
 import tagIcon from "../../assets/tag.png";
 import { IconButton } from "@mui/material";
+import { useSelector } from "react-redux";
 
 const ChatHeader = () =>
 {
@@ -33,13 +34,15 @@ const ChatHeader = () =>
         };
     }, [] );
 
+    const { selectedChatRoom } = useSelector( state => state.chatRoom )
+
     return (
         <>
             <div className="px-4 flex justify-between items-center pb-1.5 pt-2 border-b border-[rgba(200,200,200,.5)]">
                 <div>
                     <div className="flex gap-2 items-center">
                         <img src={ tagIcon } className="w-3.5 h-3.5" alt="" />
-                        <p className="text-[13px] font-medium mt-0.5">AHIT Tecno</p>
+                        <p className="text-[13px] font-medium mt-0.5">{ selectedChatRoom?.project?.name }</p>
                     </div>
 
                     <p className="text-[12px]  opacity-65">6 Members</p>

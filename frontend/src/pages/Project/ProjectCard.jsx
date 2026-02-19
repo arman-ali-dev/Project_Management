@@ -24,7 +24,6 @@ const ProjectCard = ( { project } ) =>
 
     today.setHours( 0, 0, 0, 0 );
     dueDate.setHours( 0, 0, 0, 0 );
-
     const diffTime = dueDate.getTime() - today.getTime();
 
     const diffDays = Math.floor( diffTime / ( 1000 * 60 * 60 * 24 ) ) + 1;
@@ -103,8 +102,11 @@ const ProjectCard = ( { project } ) =>
               ) }
             </IconButton>
           </div> }
-          <img className="w-16" src={ project?.logo } alt="" />
-
+          <img
+            className="w-16 h-16 object-contain"
+            src={ project?.logo }
+            alt=""
+          />
           <h3 className="font-medium opacity-80 text-[14px] mt-2.5">
             { project?.name }
           </h3>

@@ -10,6 +10,8 @@ import { PersistGate } from "redux-persist/integration/react";
 
 let persistor = persistStore( store );
 
+window.global = window;
+
 createRoot( document.getElementById( "root" ) ).render(
   <BrowserRouter>
     <Provider store={ store }>

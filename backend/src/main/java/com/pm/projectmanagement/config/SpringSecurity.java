@@ -27,6 +27,7 @@ public class SpringSecurity {
                         .requestMatchers("/auth/**", "/health-check").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/**").authenticated()
+                        .requestMatchers("/ws/**").permitAll()
                         .anyRequest().permitAll()
                 )
                 .addFilterBefore(new JwtValidator(), BasicAuthenticationFilter.class);

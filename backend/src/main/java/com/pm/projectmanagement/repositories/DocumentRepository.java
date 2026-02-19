@@ -9,5 +9,6 @@ import java.util.List;
 
 public interface DocumentRepository extends JpaRepository<Document, Long> {
     List<Document> findTop5ByUploadedByOrderByCreatedAtDesc(User user);
+
     List<Document> findByVisibilityOrderByCreatedAtDesc(DocumentVisibility visibility);
 }

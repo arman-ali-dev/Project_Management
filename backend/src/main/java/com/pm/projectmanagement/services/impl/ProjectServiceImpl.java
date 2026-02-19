@@ -1,10 +1,13 @@
 package com.pm.projectmanagement.services.impl;
 
+import com.pm.projectmanagement.enums.ChatType;
 import com.pm.projectmanagement.enums.Priority;
 import com.pm.projectmanagement.enums.ProjectStatus;
 import com.pm.projectmanagement.exceptions.NotFoundException;
+import com.pm.projectmanagement.models.ChatRoom;
 import com.pm.projectmanagement.models.Project;
 import com.pm.projectmanagement.models.User;
+import com.pm.projectmanagement.repositories.ChatRoomRepository;
 import com.pm.projectmanagement.repositories.ProjectRepository;
 import com.pm.projectmanagement.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +20,28 @@ import java.util.List;
 public class ProjectServiceImpl implements ProjectService {
 
     private final ProjectRepository projectRepository;
+    private final ChatRoomRepository chatRoomRepository;
 
     @Autowired
-    public ProjectServiceImpl(ProjectRepository projectRepository) {
+    public ProjectServiceImpl(ProjectRepository projectRepository, ChatRoomRepository chatRoomRepository) {
         this.projectRepository = projectRepository;
+        this.chatRoomRepository = chatRoomRepository;
     }
 
     @Override
     public Project createProject(Project project) {
-        return projectRepository.save(project);
+
+        // 1️⃣ Save Project
+        Project savedProject = projectRepository.save(project);
+
+        // 2️⃣ Create Chat Room for this project
+        ChatRoom chatRoom = new ChatRoom();
+        chatRoom.setType(ChatType.GROUP);
+        chatRoom.setProject(savedProject);
+        chatRoom.setParticipants(savedProject.getMembers());
+        chatRoomRepository.save(chatRoom);
+
+        return savedProject;
     }
 
     @Override

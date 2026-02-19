@@ -1,5 +1,6 @@
 package com.pm.projectmanagement.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pm.projectmanagement.enums.Priority;
 import com.pm.projectmanagement.enums.ProjectStatus;
 import jakarta.persistence.*;
@@ -47,6 +48,7 @@ public class Project {
             joinColumns = @JoinColumn(name = "project_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
+    @JsonIgnore
     private List<User> members;
 
 

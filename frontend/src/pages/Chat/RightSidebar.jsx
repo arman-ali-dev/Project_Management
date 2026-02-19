@@ -4,17 +4,26 @@ import mediaIcon from "../../assets/media.png";
 import downArrow from "../../assets/arrowDown.png";
 import dashImage from "../../assets/dash.png";
 
+import tagIcon from "../../assets/tag.png";
+import { useSelector } from "react-redux";
+
+
 const RightSidebar = () =>
 {
+
+    const { selectedChatRoom } = useSelector( state => state.chatRoom )
+
+
+
     return (
         <>
             <div className="h-full w-full px-4 py-6  border-[rgba(200,200,200,.5)] border-l">
                 <div className="border-b border-[rgba(200,200,200,.5)] pb-4 mb-3">
                     <div className="bg-[#EFEFEF] w-16 h-16 mx-auto rounded-full flex justify-center items-center">
-                        <img src={ terminalIcon } alt="terminal icon" className="w-5 " />
+                        <img src={ tagIcon } alt="terminal icon" className="w-5 " />
                     </div>
                     <h3 className="text-center mt-2 font-medium text-[13px]">
-                        Info. Tech. Team
+                        { selectedChatRoom?.project?.name }
                     </h3>
                     <p className="text-center font-medium text-[11px] opacity-65">
                         { " " }
@@ -26,8 +35,9 @@ const RightSidebar = () =>
                     <h3 className="font-medium text-[13px]">Description</h3>
 
                     <p className="text-[12px]">
-                        IT-related operations run smoothly. The IT Team also provides
-                        technical assistance to employees...
+                        { selectedChatRoom?.project?.description?.split( " " ).slice( 0, 13 ).join( " " ) }
+
+                        { selectedChatRoom?.project?.description?.split( " " ).length > 13 && "..." }
                     </p>
                 </div>
 

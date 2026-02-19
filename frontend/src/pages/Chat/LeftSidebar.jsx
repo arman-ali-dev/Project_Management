@@ -8,9 +8,20 @@ import downArrow from "../../assets/arrowDown.png";
 import tagIcon from "../../assets/tag.png";
 import groupIcon from "../../assets/group.png";
 import profileIcon from "../../assets/profile.jpg";
+import { useDispatch, useSelector } from "react-redux";
+import { selectChatRoom } from "../../redux/member/chatRoomSlice";
 
 const LeftSidebar = () =>
 {
+    const { chatRooms } = useSelector( ( state ) => state.chatRoom );
+    const { selectedChatRoom } = useSelector( state => state.chatRoom )
+    const dispatch = useDispatch()
+
+    const handleSelectChatRoom = ( room ) => () =>
+    {
+        dispatch( selectChatRoom( room ) )
+    }
+
     return (
         <>
             <div className="h-full w-full px-4 py-6 border-[rgba(200,200,200,.5)] border-r">
@@ -55,41 +66,18 @@ const LeftSidebar = () =>
                     </div>
 
                     <ul className="space-y-2 border-b border-[rgba(200,200,200,.5)] pb-4 mt-3 ">
-                        <li className="relative">
-                            <Link className="text-[13px] opacity-75 flex items-center gap-1.5 hover:opacity-100 transition-all duration-75">
-                                <img className="w-3.5 h-3.5" src={ tagIcon } alt="tag icon" />
-                                <span className="mt-px">Tour Monk</span>
-                            </Link>
+                        { chatRooms?.map( ( c ) => (
+                            <li onClick={ handleSelectChatRoom( c ) } className="relative">
+                                <Link className={ `text-[13px] ${ c.id !== selectedChatRoom?.id ? "opacity-75" : "" } flex items-center gap-1.5 hover:opacity-100 transition-all duration-75` }>
+                                    <img className="w-3.5 h-3.5" src={ tagIcon } alt="tag icon" />
+                                    <span className="mt-px">{ c?.project?.name }</span>
+                                </Link>
 
-                            <span className="bg-[rgba(250,38,38,.9)] absolute right-0 top-1/2 -translate-y-1/2 opacity-80 flex justify-center items-center text-[10px] text-white h-5.5 w-5.5 rounded-lg">
-                                6
-                            </span>
-                        </li>
-
-                        <li className="relative">
-                            <Link className="text-[13px] opacity-75 flex items-center gap-1.5 hover:opacity-100 transition-all duration-75">
-                                <img
-
-                                    className="w-3.5 h-3.5"
-                                    src={ tagIcon }
-                                    alt="terminal icon"
-                                />
-                                <span className="mt-px">AHIT Tecno</span>
-                            </Link>
-                        </li>
-                        <li className="relative">
-                            <Link className="text-[13px] opacity-75 flex items-center gap-1.5 hover:opacity-100 transition-all duration-75">
-                                <img className="w-3.5 h-3.5" src={ tagIcon } alt="dm icon" />
-                                <span className="mt-px">Namaste Bharat</span>
-                            </Link>
-                        </li>
-
-                        <li className="relative">
-                            <Link className="text-[13px] opacity-75 flex items-center gap-1.5 hover:opacity-100 transition-all duration-75">
-                                <img className="w-3.5 h-3.5" src={ tagIcon } alt="corporation icon" />
-                                <span className="mt-px">Ecommerce</span>
-                            </Link>
-                        </li>
+                                <span className="bg-[rgba(250,38,38,.9)] absolute right-0 top-1/2 -translate-y-1/2 opacity-80 flex justify-center items-center text-[10px] text-white h-5.5 w-5.5 rounded-lg">
+                                    6
+                                </span>
+                            </li>
+                        ) ) }
                     </ul>
                 </div>
 

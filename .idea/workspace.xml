@@ -2,30 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b25e1e8b-378e-47cb-96af-4a25e4f8198c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/controllers/admin/AdminFolderController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/repositories/FolderRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/services/DocumentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/controllers/admin/AdminTaskController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/controllers/admin/AdminTaskController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/controllers/member/TaskController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/controllers/member/TaskController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/models/Document.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/models/Document.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/repositories/TaskRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/repositories/TaskRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/services/TaskService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/services/TaskService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/services/impl/TaskServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/services/impl/TaskServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Calendar/Calendar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Calendar/Calendar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Calendar/DateAndTask.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Calendar/DateAndTask.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/config/JwtValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/config/JwtValidator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/config/SpringSecurity.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/config/SpringSecurity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/models/Project.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/models/Project.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/repositories/DocumentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/repositories/DocumentRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/services/impl/ProjectServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/services/impl/ProjectServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Chat/Chat.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Chat/Chat.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Chat/ChatArea.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Chat/ChatArea.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Chat/ChatContainer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Chat/ChatContainer.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Chat/ChatHeader.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Chat/ChatHeader.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Chat/LeftSidebar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Chat/LeftSidebar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Chat/RightSidebar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Chat/RightSidebar.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/Drive/Drive.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Drive/Drive.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Drive/FIleDetails.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Drive/FIleDetails.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Drive/File.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Drive/File.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Drive/PublicFiles.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Drive/PublicFiles.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Drive/PublicFilesList.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Drive/RecentFIles.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Drive/RecentFIles.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Kanban/KanbanBoard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Kanban/KanbanBoard.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Kanban/KanbanCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Kanban/KanbanCard.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Kanban/KanbanColumn.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Kanban/KanbanColumn.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Tasks/Task.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Tasks/Task.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/redux/admin/taskSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/admin/taskSlice.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/redux/member/taskSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/member/taskSlice.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Project/ProjectCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Project/ProjectCard.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/redux/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/store.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/vite.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,26 +32,27 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 4
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
   <component name="ProjectId" id="39c2adlTOAA0TGq999ph6zfJ3Va" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/intel/OneDrive/Documents/Project Management",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/intel/OneDrive/Documents/Project Management&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -71,7 +69,12 @@
       <option name="presentableId" value="Default" />
       <updated>1770981103017</updated>
       <workItem from="1770981104378" duration="15000" />
+      <workItem from="1771320335020" duration="40000" />
+      <workItem from="1771495166922" duration="33000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
 </project>
