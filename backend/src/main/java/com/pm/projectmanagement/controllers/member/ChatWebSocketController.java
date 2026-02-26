@@ -24,9 +24,7 @@ public class ChatWebSocketController {
 
         return messageService.sendMessage(
                 roomId,
-                request.getSenderId(),
-                request.getContent(),
-                request.getType()
+                request
         );
     }
 }

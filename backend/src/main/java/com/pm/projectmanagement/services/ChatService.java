@@ -11,4 +11,8 @@ public interface ChatService {
 
     ChatRoom createPrivateChat(User user1, User user2);
 
+    ChatRoom getChatRoomByProject(Long projectId);
+
+    void deleteChatRoomByProject(Long projectId);
+
 }

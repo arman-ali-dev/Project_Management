@@ -4,16 +4,16 @@ import Drawer from "@mui/material/Drawer";
 
 import plusIcon from "../../assets/plus.png";
 import
-    {
-        Select,
-        MenuItem,
-        Button,
-        Snackbar,
-        Alert,
-        CircularProgress,
-        Avatar,
-        IconButton,
-    } from "@mui/material";
+{
+    Select,
+    MenuItem,
+    Button,
+    Snackbar,
+    Alert,
+    CircularProgress,
+    Avatar,
+    IconButton,
+} from "@mui/material";
 
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -22,6 +22,11 @@ import { useDispatch, useSelector } from "react-redux";
 import editIcon from "../../assets/edit2.png";
 import { uploadToCloudinary } from "../../util/uploadToCloudinary";
 import uploadIcon from "../../assets/upload.png";
+import { fetchUsers } from "../../redux/admin/userSlice";
+import userAvatar from "../../assets/userAvatar.png";
+import removeIcon from "../../assets/remove.png";
+
+
 
 const projectValidationSchema = Yup.object( {
     name: Yup.string().required( "Project name is required" ),
@@ -51,6 +56,10 @@ const projectValidationSchema = Yup.object( {
         .min( Yup.ref( "startDate" ), "Due date cannot be before start date" ),
 
     logo: Yup.string().required( "Logo is required" ),
+
+    members: Yup.array()
+        .required( "members are required" )
+        .min( 1, "At least one member must be include." ),
 } );
 
 export default function AddProjectForm ( { toggleDrawer, open } )
@@ -59,6 +68,21 @@ export default function AddProjectForm ( { toggleDrawer, open } )
     const [ openSnack, setOpenSnack ] = React.useState( false );
     const [ snackMessage, setSnackMessage ] = React.useState( "" );
     const [ snackType, setSnackType ] = React.useState( "success" );
+    const { users, loading } = useSelector( ( state ) => state.adminUser );
+    const [ search, setSearch ] = React.useState( "" );
+
+    React.useEffect( () =>
+    {
+        dispatch( fetchUsers() );
+    }, [ dispatch ] );
+
+
+    const filteredUsers = users?.filter(
+        ( u ) =>
+            u.fullName.toLowerCase().includes( search.toLowerCase() ) ||
+            u.email.toLowerCase().includes( search.toLowerCase() ),
+    );
+
 
     const logoInputRef = React.useRef( null );
     const [ uploading, setUploading ] = React.useState( false );
@@ -75,6 +99,7 @@ export default function AddProjectForm ( { toggleDrawer, open } )
             startDate: "",
             dueDate: "",
             logo: "",
+            members: [],
         },
         validationSchema: projectValidationSchema,
         onSubmit: ( values, { resetForm } ) =>
@@ -326,6 +351,104 @@ export default function AddProjectForm ( { toggleDrawer, open } )
                                     { formik.errors.progress }
                                 </p>
                             ) }
+                        </div>
+                    </div>
+
+                    <div>
+                        <label className="text-[#616161] text-[14px]">Add Members</label>
+
+                        <div className="relative">
+                            <input
+                                type="text"
+                                value={ search }
+                                onChange={ ( e ) => setSearch( e.target.value ) }
+                                placeholder="Search user..."
+                                className="border-[#BCBCBC] w-full outline-0 px-4 py-2 text-[15px] mt-1 border rounded-sm"
+                            />
+                            { formik.touched.members && formik.errors.members && (
+                                <p className="text-red-500 text-[12px] ">
+                                    { formik.errors.members }
+                                </p>
+                            ) }
+
+                            { search && (
+                                <div className="absolute w-full border-[#BCBCBC] bg-white border mt-1 z-20 max-h-56 overflow-y-auto rounded-sm">
+                                    { loading &&
+                                        [ 1, 2, 3 ].map( ( i ) => (
+                                            <div
+                                                key={ i }
+                                                className="px-4 py-3 flex items-center gap-3 animate-pulse"
+                                            >
+                                                <div className="w-6 h-6 bg-gray-300 rounded-full" />
+                                                <div className="h-3 w-32 bg-gray-300 rounded" />
+                                            </div>
+                                        ) ) }
+
+                                    { !loading &&
+                                        filteredUsers.map( ( user ) =>
+                                        {
+                                            const alreadyAdded = formik.values.members.some(
+                                                ( u ) => u.id === user.id,
+                                            );
+
+                                            return (
+                                                <div
+                                                    key={ user.id }
+                                                    className="px-4 py-2 flex justify-between items-center hover:bg-gray-100"
+                                                >
+                                                    <div className="flex gap-2 items-center">
+                                                        <img
+                                                            src={ user.profileImage || userAvatar }
+                                                            className="w-6 h-6 rounded-full"
+                                                        />
+                                                        <span className="text-sm">{ user.fullName }</span>
+                                                    </div>
+
+                                                    <Button
+                                                        disabled={ alreadyAdded }
+                                                        onClick={ () =>
+                                                            formik.setFieldValue( "members", [
+                                                                ...formik.values.members,
+                                                                user,
+                                                            ] )
+                                                        }
+                                                        sx={ {
+                                                            textTransform: "capitalize",
+                                                            fontSize: "12px",
+                                                            backgroundColor: alreadyAdded ? "#aaa" : "#000",
+                                                            color: "#fff",
+                                                        } }
+                                                    >
+                                                        { alreadyAdded ? "Added" : "Add" }
+                                                    </Button>
+                                                </div>
+                                            );
+                                        } ) }
+                                </div>
+                            ) }
+                        </div>
+
+                        <div className="flex gap-2.5 mt-4">
+                            { formik.values.members.map( ( user ) => (
+                                <div key={ user.id } className="relative">
+                                    <img
+                                        className="w-8.5 h-8.5 rounded-full object-cover"
+                                        src={ user.profileImage || userAvatar }
+                                    />
+                                    <img
+                                        className="w-3.5 cursor-pointer absolute top-0 -right-0.5"
+                                        src={ removeIcon }
+                                        onClick={ () =>
+                                            formik.setFieldValue(
+                                                "members",
+                                                formik.values.members.filter(
+                                                    ( u ) => u.id !== user.id,
+                                                ),
+                                            )
+                                        }
+                                    />
+                                </div>
+                            ) ) }
                         </div>
                     </div>
 

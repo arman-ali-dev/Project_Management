@@ -34,7 +34,7 @@ const ChatHeader = () =>
         };
     }, [] );
 
-    const { selectedChatRoom } = useSelector( state => state.chatRoom )
+    const { selectedChatRoom } = useSelector( ( state ) => state.chatRoom );
 
     return (
         <>
@@ -42,10 +42,14 @@ const ChatHeader = () =>
                 <div>
                     <div className="flex gap-2 items-center">
                         <img src={ tagIcon } className="w-3.5 h-3.5" alt="" />
-                        <p className="text-[13px] font-medium mt-0.5">{ selectedChatRoom?.project?.name }</p>
+                        <p className="text-[13px] font-medium mt-0.5">
+                            { selectedChatRoom?.project?.name }
+                        </p>
                     </div>
 
-                    <p className="text-[12px]  opacity-65">6 Members</p>
+                    <p className="text-[12px]  opacity-65">
+                        { selectedChatRoom?.project?.members.length } Members
+                    </p>
                 </div>
 
                 <div className="flex items-center gap-3 ">

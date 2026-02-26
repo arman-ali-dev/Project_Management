@@ -14,4 +14,6 @@ public class ChatMessageRequest  {
     private Long senderId;
     private String content;
     private MessageType type;
+    private String caption;
+    private String fileName;
 }

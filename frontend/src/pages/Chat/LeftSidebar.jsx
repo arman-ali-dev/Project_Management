@@ -7,20 +7,23 @@ import channelIcon from "../../assets/channel.png";
 import downArrow from "../../assets/arrowDown.png";
 import tagIcon from "../../assets/tag.png";
 import groupIcon from "../../assets/group.png";
-import profileIcon from "../../assets/profile.jpg";
+import userAvatar from "../../assets/userAvatar.png";
 import { useDispatch, useSelector } from "react-redux";
 import { selectChatRoom } from "../../redux/member/chatRoomSlice";
 
 const LeftSidebar = () =>
 {
     const { chatRooms } = useSelector( ( state ) => state.chatRoom );
-    const { selectedChatRoom } = useSelector( state => state.chatRoom )
-    const dispatch = useDispatch()
+    const { selectedChatRoom } = useSelector( ( state ) => state.chatRoom );
+    const dispatch = useDispatch();
 
     const handleSelectChatRoom = ( room ) => () =>
     {
-        dispatch( selectChatRoom( room ) )
-    }
+        dispatch( selectChatRoom( room ) );
+    };
+
+    console.log( "s c, ", selectedChatRoom );
+
 
     return (
         <>
@@ -68,7 +71,9 @@ const LeftSidebar = () =>
                     <ul className="space-y-2 border-b border-[rgba(200,200,200,.5)] pb-4 mt-3 ">
                         { chatRooms?.map( ( c ) => (
                             <li onClick={ handleSelectChatRoom( c ) } className="relative">
-                                <Link className={ `text-[13px] ${ c.id !== selectedChatRoom?.id ? "opacity-75" : "" } flex items-center gap-1.5 hover:opacity-100 transition-all duration-75` }>
+                                <Link
+                                    className={ `text-[13px] ${ c.id !== selectedChatRoom?.id ? "opacity-75" : "" } flex items-center gap-1.5 hover:opacity-100 transition-all duration-75` }
+                                >
                                     <img className="w-3.5 h-3.5" src={ tagIcon } alt="tag icon" />
                                     <span className="mt-px">{ c?.project?.name }</span>
                                 </Link>
@@ -95,31 +100,17 @@ const LeftSidebar = () =>
                         />
                     </div>
 
-                    <ul className="mt-4 space-y-2.5">
-                        <li className="flex cursor-pointer items-center gap-2">
-                            <img
-                                src={ profileIcon }
-                                alt="profile icon"
-                                className="w-6 h-6  rounded-full object-cover"
-                            />
-                            <p className=" text-[13px]">Armaan Ali</p>
-                        </li>
-                        <li className="flex cursor-pointer items-center gap-2">
-                            <img
-                                src={ profileIcon }
-                                alt="profile icon"
-                                className="w-6 h-6  rounded-full object-cover"
-                            />
-                            <p className=" text-[13px]">Armaan Ali</p>
-                        </li>
-                        <li className="flex cursor-pointer items-center gap-2">
-                            <img
-                                src={ profileIcon }
-                                alt="profile icon"
-                                className="w-6 h-6  rounded-full object-cover"
-                            />
-                            <p className=" text-[13px]">Armaan Ali</p>
-                        </li>
+                    <ul className="mt-4 space-y-3">
+                        { selectedChatRoom?.project?.members?.map( ( m ) => (
+                            <li key={ m.id } className="flex cursor-pointer items-center gap-2.5">
+                                <img
+                                    src={ m.profileImage || userAvatar }
+                                    alt="profile icon"
+                                    className="w-6 h-6  rounded-full object-cover"
+                                />
+                                <p className=" text-[13px]">{ m?.fullName }</p>
+                            </li>
+                        ) ) }
                     </ul>
                 </div>
             </div>

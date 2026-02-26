@@ -6,6 +6,7 @@ import com.pm.projectmanagement.models.Message;
 import com.pm.projectmanagement.models.User;
 import com.pm.projectmanagement.repositories.ChatRoomRepository;
 import com.pm.projectmanagement.repositories.MessageRepository;
+import com.pm.projectmanagement.requests.ChatMessageRequest;
 import com.pm.projectmanagement.services.MessageService;
 import com.pm.projectmanagement.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,17 +32,20 @@ public class MessageServiceImpl implements MessageService {
 
 
     @Override
-    public Message sendMessage(Long chatRoomId, Long senderId, String content, MessageType type) {
+    public Message sendMessage(Long chatRoomId, ChatMessageRequest request) {
         ChatRoom room = chatRoomRepository.findById(chatRoomId)
                 .orElseThrow(() -> new RuntimeException("Chat room not found"));
 
-        User sender = userService.getUserById(senderId);
+        User sender = userService.getUserById(request.getSenderId());
 
         Message message = new Message();
         message.setChatRoom(room);
         message.setSender(sender);
-        message.setContent(content);
-        message.setType(type);
+        message.setContent(request.getContent());
+        message.setType(request.getType());
+        message.setCaption(request.getCaption());
+        message.setFileName(request.getFileName());
+
 
         return messageRepository.save(message);
     }

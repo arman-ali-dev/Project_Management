@@ -10,7 +10,7 @@ import deleteIcon from "../../assets/delete.png";
 import EditProjectForm from "./editProjectForm";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteProject } from "../../redux/admin/projectSlice";
-
+import userAvatar from "../../assets/userAvatar.png";
 const ProjectCard = ( { project } ) =>
 {
   const navigate = useNavigate();
@@ -73,35 +73,37 @@ const ProjectCard = ( { project } ) =>
           } }
           className="bg-white group relative cursor-pointer rounded-xl shadow px-6 py-5"
         >
-          { user?.role === "ADMIN" && <div
-            className="absolute top-3 right-3 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-50"
-            onClick={ ( e ) => e.stopPropagation() }
-          >
-            <IconButton
-              size="small"
-              onClick={ ( e ) =>
-              {
-                setSelectedProject( project );
-                e.stopPropagation();
-                toggleDrawer( true )( e );
-                console.log( "clinkded" );
-              } }
+          { user?.role === "ADMIN" && (
+            <div
+              className="absolute top-3 right-3 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-50"
+              onClick={ ( e ) => e.stopPropagation() }
             >
-              <img className="w-4.5" src={ editIcon } alt="Edit" />
-            </IconButton>
+              <IconButton
+                size="small"
+                onClick={ ( e ) =>
+                {
+                  setSelectedProject( project );
+                  e.stopPropagation();
+                  toggleDrawer( true )( e );
+                  console.log( "clinkded" );
+                } }
+              >
+                <img className="w-4.5" src={ editIcon } alt="Edit" />
+              </IconButton>
 
-            <IconButton
-              disabled={ deletedProjectId === project.id }
-              size="small"
-              onClick={ () => handleDeleteProject( project.id ) }
-            >
-              { deletedProjectId === project.id ? (
-                <CircularProgress size={ 14 } color="black" />
-              ) : (
-                <img className="w-4" src={ deleteIcon } alt="Delete" />
-              ) }
-            </IconButton>
-          </div> }
+              <IconButton
+                disabled={ deletedProjectId === project.id }
+                size="small"
+                onClick={ () => handleDeleteProject( project.id ) }
+              >
+                { deletedProjectId === project.id ? (
+                  <CircularProgress size={ 14 } color="black" />
+                ) : (
+                  <img className="w-4" src={ deleteIcon } alt="Delete" />
+                ) }
+              </IconButton>
+            </div>
+          ) }
           <img
             className="w-16 h-16 object-contain"
             src={ project?.logo }
@@ -158,16 +160,14 @@ const ProjectCard = ( { project } ) =>
             </div>
 
             <div className="flex">
-              <img
-                className="w-7.5 h-7.5 -mr-4 z-50 relative border-white border rounded-full object-cover"
-                src={ profilePic }
-                alt=""
-              />
-              <img
-                className="w-8 h-8 rounded-full object-cover"
-                src={ profilePic2 }
-                alt=""
-              />
+              { project?.members?.map( ( m, idx ) => (
+                <img
+                  key={ idx }
+                  className={ `min-w-8 min-h-8 w-8 h-8 ${ idx != project?.members?.length - 1 ? "-mr-3.5 z-50 border-white border" : "" } rounded-full object-cover
+`} src={ m.profileImage || userAvatar }
+                  alt=""
+                />
+              ) ) }
             </div>
           </div>
         </div>

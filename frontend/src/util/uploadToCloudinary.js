@@ -11,9 +11,11 @@ export const uploadToCloudinary = async (pics) => {
   data.append("file", pics);
   data.append("upload_preset", UPLOAD_PRESET);
 
+  const resourceType = pics.type.startsWith("video/") ? "video" : "image";
+
   try {
     const response = await fetch(
-      `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+      `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${resourceType}/upload`,
       {
         method: "POST",
         body: data,

@@ -1,6 +1,7 @@
 package com.pm.projectmanagement.services.impl;
 
 import com.pm.projectmanagement.enums.ChatType;
+import com.pm.projectmanagement.exceptions.NotFoundException;
 import com.pm.projectmanagement.models.ChatRoom;
 import com.pm.projectmanagement.models.User;
 import com.pm.projectmanagement.repositories.ChatRoomRepository;
@@ -33,5 +34,17 @@ public class ChatServiceImpl implements ChatService {
         room.setParticipants(List.of(user1, user2));
 
         return chatRoomRepository.save(room);
+    }
+
+    @Override
+    public ChatRoom getChatRoomByProject(Long projectId) {
+        return  chatRoomRepository.findByProjectId(projectId)
+                .orElseThrow(() -> new NotFoundException("Chat Room not found!"));
+    }
+
+    @Override
+    public void deleteChatRoomByProject(Long projectId) {
+        ChatRoom chatRoom = this.getChatRoomByProject(projectId);
+        chatRoomRepository.delete(chatRoom);
     }
 }

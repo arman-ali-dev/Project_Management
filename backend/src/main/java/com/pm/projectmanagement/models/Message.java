@@ -1,7 +1,9 @@
 package com.pm.projectmanagement.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pm.projectmanagement.enums.MessageType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,8 +23,13 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
+    @Column(columnDefinition = "TEXT")
     private String content;
+
+    @Column(columnDefinition = "TEXT")
+    private String caption;
+
+    private String fileName;
 
     @ManyToOne
     @JoinColumn(name = "sender_id", nullable = false)
@@ -30,6 +37,7 @@ public class Message {
 
     @ManyToOne
     @JoinColumn(name = "chat_room_id", nullable = false)
+    @JsonIgnore
     private ChatRoom chatRoom;
 
     private MessageType type; // TEXT / IMAGE / FILE

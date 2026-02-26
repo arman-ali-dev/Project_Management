@@ -3,26 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b25e1e8b-378e-47cb-96af-4a25e4f8198c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/config/JwtValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/config/JwtValidator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/config/SpringSecurity.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/config/SpringSecurity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/models/Project.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/models/Project.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/repositories/DocumentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/repositories/DocumentRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/services/impl/ProjectServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/pm/projectmanagement/services/impl/ProjectServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/main.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Chat/Chat.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Chat/Chat.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Chat/ChatArea.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Chat/ChatArea.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Chat/ChatContainer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Chat/ChatContainer.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Chat/ChatHeader.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Chat/ChatHeader.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Chat/LeftSidebar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Chat/LeftSidebar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Chat/RightSidebar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Chat/RightSidebar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Drive/Drive.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Drive/Drive.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Project/ProjectCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Project/ProjectCard.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/redux/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/store.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/vite.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Dashboard/TaskTable.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Dashboard/TaskTable.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,6 +52,8 @@
       <workItem from="1770981104378" duration="15000" />
       <workItem from="1771320335020" duration="40000" />
       <workItem from="1771495166922" duration="33000" />
+      <workItem from="1771569537449" duration="27000" />
+      <workItem from="1771647728746" duration="23000" />
     </task>
     <servers />
   </component>

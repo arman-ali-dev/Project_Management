@@ -3,15 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchTasks } from "../../redux/admin/taskSlice";
 import userAvatar from "../../assets/userAvatar.png";
 import
-    {
-        Tooltip,
-        Skeleton,
-        Pagination,
-        IconButton,
-        Menu,
-        MenuItem,
-        Divider,
-    } from "@mui/material";
+{
+    Tooltip,
+    Skeleton,
+    Pagination,
+    IconButton,
+    Menu,
+    MenuItem,
+    Divider,
+} from "@mui/material";
 import filterIcon from "../../assets/filter.png";
 import ViewTaskDetailsModal from "../Tasks/ViewTaskDetailsModal";
 
@@ -38,11 +38,7 @@ const TaskTable = () =>
     {
         const token = localStorage.getItem( "jwt" );
 
-        if ( !token )
-        {
-            window.location.href = "/login";
-            return;
-        }
+        if ( !token ) return;
 
         dispatch( fetchTasks( { status, priority } ) );
     }, [ dispatch, status, priority ] );
@@ -54,9 +50,10 @@ const TaskTable = () =>
     const [ page, setPage ] = useState( 1 );
     const rowsPerPage = 7;
 
+    const safeTasks = Array.isArray( tasks ) ? tasks : [];
     const startIndex = ( page - 1 ) * rowsPerPage;
     const endIndex = startIndex + rowsPerPage;
-    const paginatedTasks = tasks?.slice( startIndex, endIndex );
+    const paginatedTasks = safeTasks.slice( startIndex, endIndex );
     const totalPages = Math.ceil( tasks?.length / rowsPerPage ) || 1;
 
     return (
@@ -224,10 +221,10 @@ const TaskTable = () =>
                                         <td className="py-4 px-4">
                                             <span
                                                 className={ `px-3 py-1 text-[12px] font-semibold rounded ${ task.status === "IN_PROGRESS"
-                                                        ? "bg-[rgba(245,86,0,.2)] text-[#F55600]"
-                                                        : task.status === "TODO"
-                                                            ? "bg-[rgba(21,127,215,.2)] text-[#157FD7]"
-                                                            : "bg-[rgba(24,163,34,.2)] text-[#18A322]"
+                                                    ? "bg-[rgba(245,86,0,.2)] text-[#F55600]"
+                                                    : task.status === "TODO"
+                                                        ? "bg-[rgba(21,127,215,.2)] text-[#157FD7]"
+                                                        : "bg-[rgba(24,163,34,.2)] text-[#18A322]"
                                                     }` }
                                             >
                                                 { task.status }
@@ -245,10 +242,10 @@ const TaskTable = () =>
                                         <td className="py-4 px-4">
                                             <span
                                                 className={ `px-3 py-1 text-[12px] font-semibold rounded ${ task.priority === "HIGH"
-                                                        ? "bg-[rgba(129,39,255,.2)] text-[#8127FF]"
-                                                        : task.priority === "LOW"
-                                                            ? "bg-[rgba(245,86,0,.2)] text-[#F55600]"
-                                                            : "bg-[rgba(21,127,215,.2)] text-[#157FD7]"
+                                                    ? "bg-[rgba(129,39,255,.2)] text-[#8127FF]"
+                                                    : task.priority === "LOW"
+                                                        ? "bg-[rgba(245,86,0,.2)] text-[#F55600]"
+                                                        : "bg-[rgba(21,127,215,.2)] text-[#157FD7]"
                                                     }` }
                                             >
                                                 { task.priority }

@@ -3,14 +3,14 @@ import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 
 import
-    {
-        Select,
-        MenuItem,
-        Button,
-        Snackbar,
-        Alert,
-        CircularProgress,
-    } from "@mui/material";
+{
+    Select,
+    MenuItem,
+    Button,
+    Snackbar,
+    Alert,
+    CircularProgress,
+} from "@mui/material";
 import removeIcon from "../../assets/remove.png";
 import uploadIcon from "../../assets/upload.png";
 import { useDispatch, useSelector } from "react-redux";
