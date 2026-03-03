@@ -5,6 +5,8 @@ export const fetchUserProfile = createAsyncThunk(
   "users/fetchUser",
   async (_, { rejectWithValue }) => {
     try {
+      console.log("fetching2....");
+
       const token = localStorage.getItem("jwt");
 
       const { data } = await axios.get(
@@ -15,6 +17,8 @@ export const fetchUserProfile = createAsyncThunk(
           },
         },
       );
+
+      console.log("User Data: ", data);
 
       return data;
     } catch (error) {

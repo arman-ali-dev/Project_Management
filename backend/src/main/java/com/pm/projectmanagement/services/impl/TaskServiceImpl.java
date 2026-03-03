@@ -10,6 +10,7 @@ import com.pm.projectmanagement.models.Task;
 import com.pm.projectmanagement.models.User;
 import com.pm.projectmanagement.repositories.TaskRepository;
 import com.pm.projectmanagement.requests.CreateTaskRequest;
+import com.pm.projectmanagement.responses.ReminderResponse;
 import com.pm.projectmanagement.services.ProjectService;
 import com.pm.projectmanagement.services.TaskService;
 import com.pm.projectmanagement.services.UserService;
@@ -19,8 +20,10 @@ import org.springframework.stereotype.Service;
 
 import java.nio.file.AccessDeniedException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -236,6 +239,51 @@ public class TaskServiceImpl implements TaskService {
         return tasks.stream()
                 .collect(Collectors.groupingBy(Task::getDueDate));
 
+    }
+
+    @Override
+    public List<ReminderResponse> getTaskReminders(User user) {
+        List<Task> tasks = taskRepository.findUserActiveTasks(user);
+
+        LocalDate today = LocalDate.now();
+        LocalDate tomorrow = today.plusDays(1);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
+
+        return tasks.stream()
+                .filter(task -> task.getStatus() != TaskStatus.DONE)
+                .map(task -> {
+
+                    String priority;
+                    String message;
+
+                    if (task.getDueDate().isBefore(today)) {
+                        priority = "OVERDUE";
+                        message = "Task is overdue";
+                    }
+                    else if (task.getDueDate().isEqual(today)) {
+                        priority = "TODAY";
+                        message = "Task is due today";
+                    }
+                    else if (task.getDueDate().isEqual(tomorrow)) {
+                        priority = "TOMORROW";
+                        message = "Task is due tomorrow";
+                    }
+                    else {
+                        return null; // skip other future tasks
+                    }
+
+                    return new ReminderResponse(
+                            task.getId(),
+                            task.getTitle(),
+                            message,
+                            task.getDueDate().format(formatter),
+                            priority
+                    );
+
+                })
+                .filter(Objects::nonNull)
+                .toList();
     }
 
 

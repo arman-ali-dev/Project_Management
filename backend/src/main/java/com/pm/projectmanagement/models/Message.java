@@ -42,6 +42,8 @@ public class Message {
 
     private MessageType type; // TEXT / IMAGE / FILE
 
+    private boolean seen = false;
+
     @CreationTimestamp
     private LocalDateTime sentAt;
 }

@@ -78,9 +78,7 @@ const LeftSidebar = () =>
                                     <span className="mt-px">{ c?.project?.name }</span>
                                 </Link>
 
-                                <span className="bg-[rgba(250,38,38,.9)] absolute right-0 top-1/2 -translate-y-1/2 opacity-80 flex justify-center items-center text-[10px] text-white h-5.5 w-5.5 rounded-lg">
-                                    6
-                                </span>
+
                             </li>
                         ) ) }
                     </ul>

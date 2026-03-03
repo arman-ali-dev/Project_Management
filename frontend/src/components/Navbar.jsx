@@ -13,84 +13,13 @@ import CreateNewTaskForm from "../pages/Dashboard/CreateNewTaskForm";
 import { useSelector } from "react-redux";
 
 
-const notifications = [
-    {
-        profileUrl:
-            "https://www.wpkixx.com/html/winku-dark/images/resources/thumb-1.jpg",
-        username: "Sarah Loren",
-        message: "Hi, how r u dear ...?",
-        time: "2 min ago",
-        status: "New",
-    },
-    {
-        profileUrl:
-            "https://www.wpkixx.com/html/winku-dark/images/resources/thumb-2.jpg",
-        username: "Jhon doe",
-        message: "Hi, how r u dear ...?",
-        time: "2 min ago",
-        status: "Reply",
-    },
-    {
-        profileUrl:
-            "https://www.wpkixx.com/html/winku-dark/images/resources/thumb-3.jpg",
-        username: "Andrew",
-        message: "Hi, how r u dear ...?",
-        time: "2 min ago",
-        status: "Unseen",
-    },
-    {
-        profileUrl:
-            "https://www.wpkixx.com/html/winku-dark/images/resources/thumb-4.jpg",
-        username: "Tom cruse",
-        message: "Hi, how r u dear ...?",
-        time: "2 min ago",
-        status: "New",
-    },
-    {
-        profileUrl:
-            "https://www.wpkixx.com/html/winku-dark/images/resources/thumb-5.jpg",
-        username: "Amy",
-        message: "Hi, how r u dear ...?",
-        time: "2 min ago",
-        status: "New",
-    },
-];
-
-const reminders = [
-    {
-        id: 1,
-        title: "Landing Page UI",
-        message: "Task is due tomorrow",
-        dueDate: "01 Feb 2026",
-        priority: "TOMORROW",
-    },
-    {
-        id: 2,
-        title: "API Integration",
-        message: "Task is overdue",
-        dueDate: "30 Jan 2026",
-        priority: "OVERDUE",
-    },
-    {
-        id: 1,
-        title: "Landing Page UI",
-        message: "Task is due tomorrow",
-        dueDate: "01 Feb 2026",
-        priority: "TOMORROW",
-    },
-    {
-        id: 2,
-        title: "API Integration",
-        message: "Task is overdue",
-        dueDate: "30 Jan 2026",
-        priority: "TODAY",
-    },
-];
 
 const Navbar = () =>
 {
     const [ open, setOpen ] = useState( false );
 
+    const { reminders, loading } = useSelector( state => state.reminder );
+    const { notifications } = useSelector( ( state ) => state.notification );
 
     const toggleDrawer = ( value ) => ( event ) =>
     {
@@ -173,9 +102,9 @@ const Navbar = () =>
                                         className="w-9 h-9 relative cursor-pointer bg-[#EFEFEF]  rounded-lg flex justify-center items-center"
                                     >
                                         <img className="w-4.5" src={ chronometerIcon } alt="" />
-                                        <span className="bg-[#FA2626] absolute -top-0.5 -right-1 opacity-80 flex justify-center items-center text-[9px] text-white h-3.5 w-3.5 rounded-full">
-                                            5
-                                        </span>
+                                        { reminders?.length != 0 && <span className="bg-[#FA2626] absolute -top-0.5 -right-1 opacity-80 flex justify-center items-center text-[9px] text-white h-3.5 w-3.5 rounded-full">
+                                            { reminders?.length }
+                                        </span> }
                                     </div>
                                 </Tooltip>
                                 <div
@@ -224,7 +153,7 @@ const Navbar = () =>
                                             </div>
                                         ) ) }
 
-                                        <div style={ { borderBottomColor: "#474747" } }>
+                                        {/* <div style={ { borderBottomColor: "#474747" } }>
                                             <Button
                                                 sx={ {
                                                     width: "100%",
@@ -238,7 +167,7 @@ const Navbar = () =>
                                             >
                                                 <span className="font-medium"> View More</span>
                                             </Button>
-                                        </div>
+                                        </div> */}
                                     </>
                                 </div>
                             </div>
@@ -251,9 +180,9 @@ const Navbar = () =>
                                     >
                                         <img className="w-4" src={ bellIcon } alt="" />
 
-                                        <span className="bg-[#FA2626] absolute -top-0.5 -right-1 opacity-80 flex justify-center items-center text-[9px] text-white h-3.5 w-3.5 rounded-full">
-                                            2
-                                        </span>
+                                        { notifications.filter( n => n.status === "New" ).length != 0 && <span className="bg-[#FA2626] absolute -top-0.5 -right-1 opacity-80 flex justify-center items-center text-[9px] text-white h-3.5 w-3.5 rounded-full">
+                                            { notifications.filter( n => n.status === "New" ).length }
+                                        </span> }
                                     </div>
                                 </Tooltip>
 
@@ -278,8 +207,8 @@ const Navbar = () =>
                                             >
                                                 <div>
                                                     <img
-                                                        className=" rounded-full"
-                                                        src={ elem.profileUrl }
+                                                        className="min-w-8 object-cover min-h-8 w-8 h-8 rounded-full"
+                                                        src={ elem.profileUrl || userAvatar }
                                                         alt=""
                                                     />
                                                 </div>
@@ -310,8 +239,9 @@ const Navbar = () =>
                                             </div>
                                         ) ) }
 
-                                        <div style={ { borderBottomColor: "#474747" } }>
+                                        <div className="absolute bottom-0 w-full" style={ { borderBottomColor: "#474747" } }>
                                             <Button
+                                                onClick={ () => navigate( "/chat" ) }
                                                 sx={ {
                                                     width: "100%",
                                                     color: "black",

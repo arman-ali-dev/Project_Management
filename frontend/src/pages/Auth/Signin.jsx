@@ -43,9 +43,9 @@ const Signin = () =>
             try
             {
                 const { data } = await axios.post( "http://localhost:8080/auth/login", values );
-                console.log( "Login Data", data );
                 localStorage.setItem( "jwt", data.token );
-                navigate( "/dashboard" );
+                navigate( data.role == "ADMIN" ? "/dashboard" : "/projects" )
+
                 dispatch( setAuthenticated( true ) );
                 dispatch( setJwt( data.jwt ) );
 

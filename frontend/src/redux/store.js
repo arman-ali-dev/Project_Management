@@ -8,6 +8,8 @@ import folderReducer from "./member/folderSlice";
 import documentReducer from "./member/documentSlice";
 import chatSlice from "./member/chatSlice";
 import chatRoomSlice from "./member/chatRoomSlice";
+import reminderSlice from "./member/reminderSlice";
+import notificationSlice from "./member/notificationSlice";
 
 import adminUserReducer from "./admin/userSlice";
 import adminProjectReducer from "./admin/projectSlice";
@@ -41,6 +43,8 @@ const rootReducer = combineReducers({
   document: documentReducer,
   chat: chatSlice,
   chatRoom: chatRoomSlice,
+  reminder: reminderSlice,
+  notification: notificationSlice,
 
   // ADMIN
   adminUser: adminUserReducer,

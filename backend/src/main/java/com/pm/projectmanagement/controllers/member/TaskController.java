@@ -3,6 +3,7 @@ package com.pm.projectmanagement.controllers.member;
 import com.pm.projectmanagement.enums.TaskStatus;
 import com.pm.projectmanagement.models.Task;
 import com.pm.projectmanagement.models.User;
+import com.pm.projectmanagement.responses.ReminderResponse;
 import com.pm.projectmanagement.services.TaskService;
 import com.pm.projectmanagement.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,15 @@ public class TaskController {
         User user = userService.getUserProfile(jwt);
         Map<LocalDate, List<Task>> tasksByDate = taskService.getTasksByDateForMonth(month, year, user);
         return ResponseEntity.ok(tasksByDate);
+    }
+
+    @GetMapping("/reminders")
+    public ResponseEntity<List<ReminderResponse>> getReminders(
+            @RequestHeader("Authorization") String jwt
+    ) {
+        User user = userService.getUserProfile(jwt);
+        List<ReminderResponse> response =  taskService.getTaskReminders(user);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }
